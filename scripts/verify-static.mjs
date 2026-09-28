@@ -37,6 +37,28 @@ const revalidating = Object.entries(manifest.routes ?? {})
   .map(([k]) => k)
 if (revalidating.length) problems.push(`routes with revalidation set: ${revalidating.join(', ')}`)
 
+/**
+ * Every URL the generated sitemap advertises must actually exist in the build.
+ * Reading the built sitemap rather than the registry source means this checks
+ * what Google will really be handed — a registry entry for a page nobody
+ * created would otherwise publish a 404 into the index.
+ */
+const sitemapXml = await readFile('.next/server/app/sitemap.xml.body', 'utf8')
+const locs = [
+  ...[...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]),
+  // Alternates are advertised just as loudly as the canonical URLs.
+  ...[...sitemapXml.matchAll(/<xhtml:link[^>]+href="([^"]+)"/g)].map((m) => m[1]),
+]
+const norm = (u) => {
+  const p = new URL(u).pathname
+  return p.length > 1 ? p.replace(/\/$/, '') : p
+}
+if (!locs.length) problems.push('sitemap.xml contains no <loc> entries')
+for (const loc of locs) {
+  const route = norm(loc)
+  if (!prerendered.has(route)) problems.push(`${loc} is in sitemap.xml but ${route} was not built`)
+}
+
 if (problems.length) {
   console.error('✗ static verification failed:')
   for (const p of problems) console.error('  - ' + p)

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Header } from '@/components/site/header'
+import { Footer } from '@/components/site/footer'
 import { alternates } from '@/lib/i18n/alternates'
 
 export const dynamic = 'error'
@@ -23,6 +24,7 @@ export default function FreeEstimatePage() {
           Get a free estimate
         </h1>
       </main>
+      <Footer locale="en" />
     </>
   )
 }

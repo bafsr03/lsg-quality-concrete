@@ -1,12 +1,32 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { BUSINESS } from '@/lib/site'
+import { BUSINESS, type Locale } from '@/lib/site'
 import { JointGrid } from '@/components/site/joint-grid'
+import { path } from '@/lib/i18n/paths'
 import heroImage from '@/public/images/22988387-concrete-new-gallery-2.jpeg'
+
+const copy = {
+  en: {
+    headline: 'Concrete that outlasts the house.',
+    lede: (y: number) =>
+      `Driveways, patios, steps and flatwork poured across Utah County and the south Salt Lake Valley. ${y} years in, and every pour still gets jointed, screeded and finished by the same crew that formed it.`,
+    cta: 'Get a free estimate',
+    meta: 'Eagle Mountain, UT · Free estimates · Mon–Sat 8am–6pm',
+    alt: 'Freshly poured concrete steps and a landing beside a stuccoed home in the Utah foothills, formed in timber and still curing.',
+  },
+  es: {
+    headline: 'Concreto que dura más que la casa.',
+    lede: (y: number) =>
+      `Entradas, patios, escalones y obra plana en el Condado de Utah y el sur del Valle de Salt Lake. ${y} años después, cada vertido lo sigue cimbrando, nivelando y terminando la misma cuadrilla.`,
+    cta: 'Solicitar presupuesto',
+    meta: 'Eagle Mountain, UT · Presupuestos gratis · Lun–Sáb 8:00–18:00',
+    alt: 'Escalones y descanso de concreto recién vertidos junto a una casa con acabado de estuco en las laderas de Utah, cimbrados en madera y aún fraguando.',
+  },
+} as const
 
 /**
  * Split hero. Type sits on the slab; the photograph holds the right panel at
- * its native portrait ratio rather than being cropped into a letterbox — these
+ * its native portrait ratio rather than being cropped to a letterbox — these
  * are phone photos, and cover-cropping them removes the concrete from concrete
  * photos.
  *
@@ -14,7 +34,9 @@ import heroImage from '@/public/images/22988387-concrete-new-gallery-2.jpeg'
  * no client component anywhere in this subtree. If JS never loads, the hero is
  * complete and readable.
  */
-export function Hero() {
+export function Hero({ locale }: { locale: Locale }) {
+  const t = copy[locale]
+
   return (
     <section className="border-joint/40 relative border-b">
       <div className="mx-auto grid w-full max-w-[110rem] items-stretch lg:min-h-[calc(100svh-4.4rem)] lg:grid-cols-[1.05fr_0.95fr]">
@@ -23,19 +45,17 @@ export function Hero() {
 
           <div className="relative">
             <h1
-              className="hero-settle text-ink max-w-[15ch] text-display leading-[0.88] font-bold"
+              className="hero-settle text-ink text-display max-w-[15ch] leading-[0.88] font-bold"
               style={{ fontStretch: '122%', letterSpacing: 'var(--tracking-display)' }}
             >
-              Concrete that outlasts the house.
+              {t.headline}
             </h1>
 
             <p
-              className="hero-settle text-ink/80 mt-6 max-w-[40ch] text-lede leading-relaxed text-pretty"
+              className="hero-settle text-ink/80 text-lede mt-6 max-w-[40ch] leading-relaxed text-pretty"
               style={{ animationDelay: '340ms' }}
             >
-              Driveways, patios, steps and flatwork poured across Utah County and the south Salt
-              Lake Valley. {BUSINESS.yearsExperience}\u00A0years in, and every pour still gets jointed,
-              screeded and finished by the same crew that formed it.
+              {t.lede(BUSINESS.yearsExperience)}
             </p>
 
             <div
@@ -43,10 +63,10 @@ export function Hero() {
               style={{ animationDelay: '440ms' }}
             >
               <Link
-                href="/free-estimate"
+                href={path('estimate', locale)}
                 className="bg-mark text-ink hover:bg-ink hover:text-slab inline-flex items-center px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
               >
-                Get a free estimate
+                {t.cta}
               </Link>
               <a
                 href={BUSINESS.phone.href}
@@ -61,7 +81,7 @@ export function Hero() {
               className="hero-settle text-joint mt-7 text-xs tracking-tight"
               style={{ animationDelay: '520ms' }}
             >
-              {BUSINESS.locality}, {BUSINESS.region} · Free estimates · Mon–Sat 8am–6pm
+              {t.meta}
             </p>
           </div>
         </div>
@@ -69,7 +89,7 @@ export function Hero() {
         <div className="border-joint/40 relative min-h-[58svh] border-t lg:min-h-0 lg:border-t-0 lg:border-l">
           <Image
             src={heroImage}
-            alt="Freshly poured concrete steps and a landing beside a stuccoed home in the Utah foothills, formed in timber and still curing."
+            alt={t.alt}
             sizes="(max-width: 1024px) 100vw, 48vw"
             quality={80}
             loading="eager"

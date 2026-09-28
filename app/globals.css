@@ -1,26 +1,117 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------------------
+   "The Slab"
+
+   Concrete is divided by saw-cut control joints on a grid — they decide where
+   the slab cracks. That grid is this site's layout system: sections are pours,
+   separated by hairline joints.
+
+   The palette is sampled from cured concrete rather than the Divi template's
+   default blue. The brand navy and gold survive, but as ink and marking paint.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-slab: #cfcdc7;    /* page base — cured concrete, a true neutral grey */
+  --color-screed: #e9e7e2;  /* raised panels and form surfaces */
+  --color-joint: #8e8c87;   /* score lines, rules, secondary text */
+  --color-ink: #14213a;     /* body and headlines — brand #022966, desaturated */
+  --color-mark: #f2b705;    /* the ONLY action colour — layout paint, safety vest */
+  --color-shadow: #2b2d2e;  /* inverted sections and footer */
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  /* One family, using its width axis as the expressive tool. Headlines run
+     expanded and heavy so type reads as structure, like formwork signage. */
+  --text-display: clamp(2.6rem, 1.15rem + 4.5vw, 5.4rem);
+  --text-title: clamp(2rem, 1.1rem + 3.4vw, 4rem);
+  --text-heading: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+  --text-lede: clamp(1.125rem, 1.02rem + 0.45vw, 1.4rem);
+
+  --tracking-display: -0.035em;
+
+  /* The joint grid. 1px hairlines that hold their weight on any display. */
+  --spacing-joint: 1px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    background: var(--color-slab);
+    color: var(--color-ink);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Tabular figures matter more here than usual: $/sq ft, "15 years", and a
+     phone number that appears on every page. */
+  body {
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-mark);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility joint-rule {
+  border-color: color-mix(in oklab, var(--color-joint) 55%, transparent);
+}
+
+/* Reduced motion is honoured in three places; this is the blanket. The other
+   two are the GSAP loader (which never even downloads the library) and the
+   smooth-scroll gate. Reduced-motion users get a fast, complete site — not a
+   degraded one. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The signature moment: the joint grid cuts itself across the hero on load.
+   One orchestrated sequence, ~700ms, then the page is still. Nothing else on
+   the site animates unprompted.
+   --------------------------------------------------------------------------- */
+.joint-draw {
+  animation: joint-cut 620ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.joint-draw-v {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+.joint-draw-h {
+  stroke-dasharray: 100;
+  stroke-dashoffset: -100;
+}
+
+@keyframes joint-cut {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The headline settles into the grid the joints just cut. */
+.hero-settle {
+  animation: hero-settle 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 220ms;
+}
+
+@keyframes hero-settle {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

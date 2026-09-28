@@ -5,6 +5,7 @@ import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
 import { JsonLd } from '@/components/seo/json-ld'
 import { graph, ID, ref } from '@/lib/seo/graph'
+import { QuoteCta } from '@/components/sections/quote-cta'
 
 const copy = {
   en: {
@@ -95,6 +96,7 @@ export function ReviewsPage({ locale }: { locale: Locale }) {
             ))}
           </ul>
         </section>
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
       <JsonLd data={jsonLd} />

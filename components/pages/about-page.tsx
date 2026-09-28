@@ -6,6 +6,8 @@ import { publishedCities } from '@/content/cities'
 import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
+import { WorkStrip } from '@/components/sections/work-strip'
+import { QuoteCta } from '@/components/sections/quote-cta'
 
 const copy = {
   en: {
@@ -74,6 +76,8 @@ export function AboutPage({ locale }: { locale: Locale }) {
             {publishedCities.map((c) => c.name).join(' · ')}
           </p>
         </section>
+        <WorkStrip locale={locale} seed="about" />
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
     </>

@@ -7,6 +7,7 @@ import { image } from '@/lib/content/media'
 import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
+import { QuoteCta } from '@/components/sections/quote-cta'
 
 const copy = {
   en: {
@@ -69,6 +70,7 @@ export function ServicesHub({ locale }: { locale: Locale }) {
             })}
           </div>
         </section>
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
     </>

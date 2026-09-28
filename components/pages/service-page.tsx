@@ -11,6 +11,9 @@ import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
 import { JsonLd } from '@/components/seo/json-ld'
 import { breadcrumbNode, graph, ID, ref } from '@/lib/seo/graph'
+import { WorkStrip } from '@/components/sections/work-strip'
+import { Testimonials } from '@/components/sections/testimonials'
+import { QuoteCta } from '@/components/sections/quote-cta'
 
 const copy = {
   en: {
@@ -95,6 +98,8 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
                 fill
                 sizes="(max-width: 1024px) 100vw, 48vw"
                 quality={80}
+                loading="eager"
+                fetchPriority="high"
                 className="object-cover"
               />
             </div>
@@ -150,6 +155,9 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
             </ul>
           </div>
         </section>
+        <WorkStrip locale={locale} seed={service.id} />
+        <Testimonials locale={locale} />
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
       <JsonLd data={jsonLd} />

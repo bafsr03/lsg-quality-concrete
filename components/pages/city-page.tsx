@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { City } from '@/content/schema'
 import { BUSINESS, SITE_URL, type Locale } from '@/lib/site'
@@ -8,6 +9,10 @@ import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
 import { JsonLd } from '@/components/seo/json-ld'
+import { WorkStrip } from '@/components/sections/work-strip'
+import { Testimonials } from '@/components/sections/testimonials'
+import { QuoteCta } from '@/components/sections/quote-cta'
+import { featuredWorkResolved } from '@/content/showcase'
 import { breadcrumbNode, graph, ID, ref } from '@/lib/seo/graph'
 
 const copy = {
@@ -32,6 +37,10 @@ const copy = {
 export function CityPage({ city, locale }: { city: City; locale: Locale }) {
   const t = copy[locale]
   const here = cityPath(city, locale)
+  // Deterministic per city so neighbouring pages don't share an opening photo.
+  const heroPhoto = featuredWorkResolved[
+    [...city.id].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 0) % featuredWorkResolved.length
+  ]
 
   const jsonLd = graph([
     {
@@ -53,30 +62,46 @@ export function CityPage({ city, locale }: { city: City; locale: Locale }) {
     <>
       <Header locale={locale} />
       <main>
-        <section className="border-joint/40 text-joint/55 relative border-b">
-          <JointGrid />
-          <div className="relative mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8 sm:py-24">
-            <p className="text-joint text-sm">{t.drive(city.driveMinutes)}</p>
-            <h1
-              className="text-ink text-display mt-4 max-w-[14ch] leading-[0.9] font-bold"
-              style={{ fontStretch: '120%', letterSpacing: 'var(--tracking-display)' }}
-            >
-              {t.title(city.name)}
-            </h1>
-            <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
-              <Link
-                href={path('estimate', locale)}
-                className="bg-mark text-ink hover:bg-ink hover:text-slab inline-flex items-center px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
-              >
-                {t.cta}
-              </Link>
-              <a
-                href={BUSINESS.phone.href}
-                data-loc="city-hero"
-                className="border-ink/30 text-ink hover:border-ink inline-flex items-center border px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
-              >
-                {BUSINESS.phone.display}
-              </a>
+        <section className="border-joint/40 relative border-b">
+          <div className="mx-auto grid w-full max-w-[110rem] items-stretch lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="text-joint/55 relative flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-20">
+              <JointGrid />
+              <div className="relative">
+                <p className="text-joint text-sm">{t.drive(city.driveMinutes)}</p>
+                <h1
+                  className="text-ink text-title mt-4 max-w-[14ch] leading-[0.95] font-bold"
+                  style={{ fontStretch: '120%', letterSpacing: 'var(--tracking-display)' }}
+                >
+                  {t.title(city.name)}
+                </h1>
+                <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
+                  <Link
+                    href={path('estimate', locale)}
+                    className="bg-mark text-ink hover:bg-ink hover:text-slab inline-flex items-center px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
+                  >
+                    {t.cta}
+                  </Link>
+                  <a
+                    href={BUSINESS.phone.href}
+                    data-loc="city-hero"
+                    className="border-ink/30 text-ink hover:border-ink inline-flex items-center border px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
+                  >
+                    {BUSINESS.phone.display}
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="border-joint/40 relative min-h-[48svh] border-t lg:min-h-0 lg:border-t-0 lg:border-l">
+              <Image
+                src={heroPhoto.image.file}
+                alt={heroPhoto.alt[locale]}
+                fill
+                sizes="(max-width: 1024px) 100vw, 48vw"
+                quality={80}
+                loading="eager"
+                fetchPriority="high"
+                className="object-cover"
+              />
             </div>
           </div>
         </section>
@@ -109,6 +134,9 @@ export function CityPage({ city, locale }: { city: City; locale: Locale }) {
             </ul>
           </div>
         </section>
+        <WorkStrip locale={locale} seed={city.id} />
+        <Testimonials locale={locale} />
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
       <JsonLd data={jsonLd} />

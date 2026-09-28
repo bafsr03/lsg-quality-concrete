@@ -33,7 +33,10 @@ export function QuoteCta({ locale }: { locale: Locale }) {
         loading="lazy"
         className="object-cover"
       />
-      <div className="bg-ink/85 absolute inset-0" aria-hidden="true" />
+      <div
+        className="from-ink/95 via-ink/80 to-ink/65 absolute inset-0 bg-gradient-to-r"
+        aria-hidden="true"
+      />
 
       <div className="relative mx-auto w-full max-w-[110rem] px-5 py-20 sm:px-8 sm:py-28">
         <h2

@@ -6,6 +6,7 @@ import { Footer } from '@/components/site/footer'
 import { JointGrid } from '@/components/site/joint-grid'
 import { JsonLd } from '@/components/seo/json-ld'
 import { graph } from '@/lib/seo/graph'
+import { QuoteCta } from '@/components/sections/quote-cta'
 import { SITE_URL } from '@/lib/site'
 
 const copy = {
@@ -85,6 +86,7 @@ export function GalleryPage({ locale }: { locale: Locale }) {
             </section>
           ))}
 
+        <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />
       <JsonLd

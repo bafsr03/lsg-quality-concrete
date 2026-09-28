@@ -64,7 +64,7 @@ export function ContactPage({ locale }: { locale: Locale }) {
                 <dt className="text-joint text-xs">{r.label}</dt>
                 <dd className="text-ink mt-1 text-lg font-semibold" style={{ fontStretch: '110%' }}>
                   {r.href ? (
-                    <a href={r.href} {...(r.loc ? { 'data-loc': r.loc } : {})} className="hover:text-mark transition-colors">
+                    <a href={r.href} {...(r.loc ? { 'data-loc': r.loc } : {})} className="hover:text-mark inline-block py-1.5 transition-colors">
                       {r.value}
                     </a>
                   ) : (

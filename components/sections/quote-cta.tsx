@@ -55,7 +55,7 @@ export function QuoteCta({ locale }: { locale: Locale }) {
           </Link>
           <p className="text-slab/70 text-sm">
             {t.call}{' '}
-            <a href={BUSINESS.phone.href} data-loc="quote-cta" className="text-slab hover:text-mark font-semibold transition-colors">
+            <a href={BUSINESS.phone.href} data-loc="quote-cta" className="text-slab hover:text-mark inline-block py-1.5 font-semibold transition-colors">
               {BUSINESS.phone.display}
             </a>
           </p>

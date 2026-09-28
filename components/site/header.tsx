@@ -60,13 +60,13 @@ export function Header({ locale = 'en' }: { locale?: Locale }) {
       {/* Services are the money pages; on small screens they still need a way in. */}
       <nav
         aria-label={t.services}
-        className="border-joint/30 scrollbar-none flex gap-5 overflow-x-auto border-t px-5 py-2 sm:px-8 lg:hidden"
+        className="border-joint/30 scrollbar-none flex gap-4 overflow-x-auto border-t px-5 sm:px-8 lg:hidden"
       >
         {publishedServices.slice(0, 6).map((s) => (
           <Link
             key={s.id}
             href={servicePath(s, locale)}
-            className="text-joint hover:text-ink shrink-0 text-xs font-medium whitespace-nowrap transition-colors"
+            className="text-joint hover:text-ink flex shrink-0 items-center py-3.5 text-xs font-medium whitespace-nowrap transition-colors"
           >
             {s.name[locale]}
           </Link>

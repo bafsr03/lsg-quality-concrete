@@ -36,6 +36,7 @@ const COPY = {
     name: 'Name', phone: 'Phone', email: 'Email', notes: 'Anything else about the job',
     submit: 'Send this to LSG', sending: 'Sending…',
     estTitle: 'Indicative range', estNone: 'Pick a job type and a size to see a range.',
+    estNoneShort: 'Add a size to see your range',
     estMin: 'This lands at our job minimum — small pours cost much the same to mobilise.',
     disclaimer:
       'This is an indicative range built from 2026 Utah installed rates, not a quote. Access, subgrade, haul-off and how level the site is all move the number. Your written estimate is free and confirmed on a site visit.',
@@ -64,6 +65,7 @@ const COPY = {
     name: 'Nombre', phone: 'Teléfono', email: 'Correo', notes: 'Algo más sobre el trabajo',
     submit: 'Enviar a LSG', sending: 'Enviando…',
     estTitle: 'Rango estimado', estNone: 'Elija tipo de trabajo y tamaño para ver un rango.',
+    estNoneShort: 'Agregue el tamaño para ver su rango',
     estMin: 'Esto llega a nuestro mínimo: movilizar una cuadrilla cuesta casi lo mismo en obras pequeñas.',
     disclaimer:
       'Este es un rango indicativo basado en precios de Utah 2026, no una cotización. El acceso, la subrasante, el retiro de escombro y el desnivel mueven la cifra. Su presupuesto por escrito es gratis y se confirma en una visita.',
@@ -92,6 +94,7 @@ export function Estimator({
 }) {
   const t = COPY[locale]
   const renderedAt = useRef(Date.now())
+  const nameRef = useRef<HTMLInputElement>(null)
 
   const [job, setJob] = useState<EstimateInput>({
     serviceId: services[0]?.id ?? 'driveways',
@@ -123,7 +126,12 @@ export function Estimator({
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!contact.name.trim() || !contact.phone.trim()) {
-      setStatus('error'); setMessage(t.required); return
+      setStatus('error'); setMessage(t.required)
+      // The submit button can be the fixed mobile bar, a long way from the
+      // field that is actually missing — take the person there.
+      nameRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      nameRef.current?.focus({ preventScroll: true })
+      return
     }
     setStatus('sending'); setMessage('')
     try {
@@ -150,7 +158,7 @@ export function Estimator({
   }
 
   return (
-    <form onSubmit={submit} className="mx-auto grid w-full max-w-[110rem] gap-x-14 gap-y-12 px-5 py-14 sm:px-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
+    <form onSubmit={submit} className="mx-auto grid w-full max-w-[110rem] gap-x-14 gap-y-12 px-5 pt-14 pb-32 sm:px-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:pb-14">
       <div className="space-y-12">
         {/* 1 — job type */}
         <fieldset>
@@ -211,11 +219,11 @@ export function Estimator({
         {unit === 'area' && (
           <fieldset>
             <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s3}</legend>
-            <div className="mt-6 space-y-3">
+            <div className="mt-4">
               {([['tearOut', t.tearOut], ['heavyDuty', t.heavyDuty], ['hardAccess', t.hardAccess]] as const).map(([k, label]) => (
-                <label key={k} className="flex cursor-pointer items-start gap-3">
+                <label key={k} className="flex cursor-pointer items-start gap-3 py-2">
                   <input type="checkbox" checked={job[k]} onChange={(e) => set(k, e.target.checked)}
-                    className="accent-mark mt-0.5 h-4 w-4 shrink-0" />
+                    className="accent-mark mt-px h-6 w-6 shrink-0" />
                   <span className="text-ink/85 text-sm">{label}</span>
                 </label>
               ))}
@@ -263,7 +271,7 @@ export function Estimator({
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div>
               <label className="text-joint block text-xs" htmlFor="name">{t.name}</label>
-              <input id="name" required autoComplete="name" className={`${field} mt-1.5`} value={contact.name}
+              <input ref={nameRef} id="name" required autoComplete="name" className={`${field} mt-1.5`} value={contact.name}
                 onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))} />
             </div>
             <div>
@@ -295,10 +303,13 @@ export function Estimator({
       {/* live estimate */}
       <aside className="lg:sticky lg:top-28 lg:h-fit">
         <div className="bg-shadow text-slab">
-          <div className="border-slab/15 border-b px-6 py-5">
+          <div className="border-slab/15 hidden border-b px-6 py-5 lg:block">
             <p className="text-slab/50 text-xs font-semibold">{t.estTitle}</p>
             {result ? (
-              <p className="mt-2 text-3xl leading-none font-bold" style={{ fontStretch: '115%' }}>
+              <p
+                className="mt-2 text-[1.95rem] leading-tight font-bold whitespace-nowrap"
+                style={{ fontStretch: '112%', letterSpacing: '-0.02em' }}
+              >
                 {formatUsd(result.low, locale)}
                 <span className="text-slab/40"> – </span>
                 {formatUsd(result.high, locale)}
@@ -329,6 +340,57 @@ export function Estimator({
           </div>
         </div>
       </aside>
+
+      {/*
+        On a phone the sticky sidebar collapses to the bottom of a very long
+        form, so the live range — the entire point of the estimator — is never
+        on screen while you fill it in. This bar keeps it there, and submits the
+        same form.
+      */}
+      <div
+        className="border-slab/15 bg-shadow text-slab fixed inset-x-0 bottom-0 z-50 border-t lg:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        <div className="flex items-center gap-3 px-4 py-3">
+          <div className="min-w-0 flex-1">
+            {status === 'sent' ? (
+              <p className="text-mark text-sm leading-snug font-semibold">{t.sent}</p>
+            ) : status === 'error' || status === 'unconfigured' ? (
+              <p className="text-slab/85 text-xs leading-snug">
+                {message || (status === 'unconfigured' ? t.unconfiguredMsg : t.errorMsg)}{' '}
+                {!message && (
+                  <a href={phoneHref} data-loc="estimator-bar" className="text-mark font-semibold">
+                    {phoneDisplay}
+                  </a>
+                )}
+              </p>
+            ) : (
+              <>
+                <p className="text-slab/50 text-[0.65rem] font-semibold">{t.estTitle}</p>
+                {result ? (
+                  <p className="truncate text-lg leading-tight font-bold" style={{ fontStretch: '112%' }}>
+                    {formatUsd(result.low, locale)}
+                    <span className="text-slab/40"> – </span>
+                    {formatUsd(result.high, locale)}
+                  </p>
+                ) : (
+                  <p className="text-slab/60 text-xs leading-snug">{t.estNoneShort}</p>
+                )}
+              </>
+            )}
+          </div>
+
+          {status !== 'sent' && (
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className="bg-mark text-ink shrink-0 px-5 py-3 text-xs font-semibold tracking-tight disabled:opacity-60"
+            >
+              {status === 'sending' ? t.sending : t.submit}
+            </button>
+          )}
+        </div>
+      </div>
     </form>
   )
 }

@@ -40,7 +40,7 @@ export function WorkStrip({
         <h2 className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>
           {t.title}
         </h2>
-        <Link href={path('gallery', locale)} className="text-joint hover:text-ink text-sm font-medium transition-colors">
+        <Link href={path('gallery', locale)} className="text-joint hover:text-ink inline-block py-1.5 text-sm font-medium transition-colors">
           {t.all}
         </Link>
       </div>

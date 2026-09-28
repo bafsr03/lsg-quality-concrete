@@ -27,17 +27,17 @@ export function Footer({ locale }: { locale: Locale }) {
               {BUSINESS.name}
             </p>
           </div>
-          <address className="text-slab/70 mt-4 space-y-1 text-sm not-italic">
+          <address className="text-slab/70 mt-3 text-sm not-italic">
             <p>
               {BUSINESS.locality}, {BUSINESS.region} {BUSINESS.postalCode}
             </p>
             <p>
-              <a href={BUSINESS.phone.href} data-loc="footer" className="hover:text-mark transition-colors">
+              <a href={BUSINESS.phone.href} data-loc="footer" className="hover:text-mark inline-block py-1.5 transition-colors">
                 {BUSINESS.phone.display}
               </a>
             </p>
             <p>
-              <a href={`mailto:${BUSINESS.email}`} className="hover:text-mark transition-colors">
+              <a href={`mailto:${BUSINESS.email}`} className="hover:text-mark inline-block py-1.5 transition-colors">
                 {BUSINESS.email}
               </a>
             </p>
@@ -47,10 +47,10 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <nav aria-label={t.services}>
           <h2 className="text-slab/50 text-xs font-semibold">{t.services}</h2>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-2 text-sm">
             {publishedServices.map((s) => (
               <li key={s.id}>
-                <Link href={servicePath(s, locale)} className="text-slab/80 hover:text-mark transition-colors">
+                <Link href={servicePath(s, locale)} className="text-slab/80 hover:text-mark block py-2 transition-colors">
                   {s.name[locale]}
                 </Link>
               </li>
@@ -60,10 +60,10 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <nav aria-label={t.areas}>
           <h2 className="text-slab/50 text-xs font-semibold">{t.areas}</h2>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-2 text-sm">
             {publishedCities.map((c) => (
               <li key={c.id}>
-                <Link href={cityPath(c, locale)} className="text-slab/80 hover:text-mark transition-colors">
+                <Link href={cityPath(c, locale)} className="text-slab/80 hover:text-mark block py-2 transition-colors">
                   {c.name}
                 </Link>
               </li>

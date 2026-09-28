@@ -23,6 +23,14 @@ const EXCLUDE = [
 export const galleryImages = manifest.filter((m) => !EXCLUDE.some((re) => re.test(m.id)))
 
 /**
+ * The business runs two divisions, and mixing them reads badly — an empty
+ * painted room in the middle of a concrete gallery undercuts both. Grouped by
+ * the source filename, which is the only categorisation WordPress preserved.
+ */
+export const concreteImages = galleryImages.filter((m) => !/remodeling/.test(m.id))
+export const remodelingImages = galleryImages.filter((m) => /remodeling/.test(m.id))
+
+/**
  * Alt text is a known gap, not an oversight.
  *
  * All 102 images arrived from WordPress with empty alt text. Writing 77 alt

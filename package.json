@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "verify:static": "node scripts/verify-static.mjs",
     "verify:hreflang": "node scripts/verify-hreflang.mjs",
-    "verify": "pnpm typecheck && pnpm build && pnpm verify:static && pnpm verify:hreflang"
+    "verify": "pnpm typecheck && pnpm build && pnpm verify:static && pnpm verify:hreflang",
+    "verify:redirects": "node scripts/verify-redirects.mjs"
   },
   "dependencies": {
     "next": "16.3.6",

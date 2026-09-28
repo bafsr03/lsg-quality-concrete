@@ -53,7 +53,7 @@ export function ReviewsPage({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <Header />
+      <Header locale={locale} />
       <main>
         <section className="border-joint/40 text-joint/55 relative border-b">
           <JointGrid />

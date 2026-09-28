@@ -34,7 +34,7 @@ export function AboutPage({ locale }: { locale: Locale }) {
   const t = copy[locale]
   return (
     <>
-      <Header />
+      <Header locale={locale} />
       <main>
         <section className="border-joint/40 text-joint/55 relative border-b">
           <JointGrid />

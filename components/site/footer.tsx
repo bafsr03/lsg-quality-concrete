@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import Image from 'next/image'
+import logoMark from '@/public/brand/mark.png'
 import { BUSINESS } from '@/lib/site'
 import { publishedCities } from '@/content/cities'
 import { publishedServices } from '@/content/services'
@@ -19,9 +21,12 @@ export function Footer({ locale }: { locale: Locale }) {
     <footer className="bg-shadow text-slab mt-auto">
       <div className="mx-auto grid w-full max-w-[110rem] gap-10 px-5 py-16 sm:px-8 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <p className="text-lg font-bold" style={{ fontStretch: '118%' }}>
-            {BUSINESS.name}
-          </p>
+          <div className="flex items-center gap-3">
+            <Image src={logoMark} alt="" aria-hidden="true" className="h-12 w-12 shrink-0" />
+            <p className="text-lg font-bold" style={{ fontStretch: '118%' }}>
+              {BUSINESS.name}
+            </p>
+          </div>
           <address className="text-slab/70 mt-4 space-y-1 text-sm not-italic">
             <p>
               {BUSINESS.locality}, {BUSINESS.region} {BUSINESS.postalCode}

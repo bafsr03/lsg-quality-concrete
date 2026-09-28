@@ -42,7 +42,7 @@ export const services = Service.array().parse([
       { label: { en: 'Control joints', es: 'Juntas de control' }, value: { en: 'Cut early, ~10 ft on a 4" slab', es: 'Cortadas temprano, ~3 m en losa de 10 cm' } },
       { label: { en: 'Mix', es: 'Mezcla' }, value: { en: 'Air-entrained, 4,000 psi for freeze-thaw', es: 'Con aire incluido, 4,000 psi para hielo y deshielo' } },
     ],
-    heroImageId: '22988254-l-s-g-gallery-28',
+    heroImageId: '22988390-concrete-new-gallery-5',
     status: 'published',
   },
   {
@@ -80,7 +80,7 @@ export const services = Service.array().parse([
       { label: { en: 'Typical finish', es: 'Acabado típico' }, value: { en: 'Broom — grip holds under snowmelt', es: 'Escoba — agarre incluso con deshielo' } },
       { label: { en: 'Hot tub pads', es: 'Bases para jacuzzi' }, value: { en: 'Thickened and reinforced, sized to the model', es: 'Engrosadas y reforzadas, según el modelo' } },
     ],
-    heroImageId: '22988263-l-s-g-gallery-7',
+    heroImageId: '22988375-remodeling-31',
     status: 'published',
   },
   {
@@ -118,7 +118,7 @@ export const services = Service.array().parse([
       { label: { en: 'Joint spacing', es: 'Separación de juntas' }, value: { en: 'Every 4–5 ft and at every direction change', es: 'Cada 1.2–1.5 m y en cada cambio de dirección' } },
       { label: { en: 'Curves', es: 'Curvas' }, value: { en: 'Formed on site, not faceted', es: 'Cimbradas en obra, no facetadas' } },
     ],
-    heroImageId: '22988260-l-s-g-gallery-10',
+    heroImageId: '22988266-l-s-g-gallery-18',
     status: 'published',
   },
   {
@@ -156,7 +156,7 @@ export const services = Service.array().parse([
       { label: { en: 'Tread finish', es: 'Acabado de huella' }, value: { en: 'Broom across the direction of travel', es: 'Escoba transversal al sentido de marcha' } },
       { label: { en: 'Drainage', es: 'Drenaje' }, value: { en: 'Forward pitch, landing tied to adjoining flatwork', es: 'Pendiente al frente, descanso ligado a la obra plana' } },
     ],
-    heroImageId: '22988387-concrete-new-gallery-2',
+    heroImageId: '22988388-concrete-new-gallery-3',
     status: 'published',
   },
   {
@@ -194,7 +194,7 @@ export const services = Service.array().parse([
       { label: { en: 'Finish', es: 'Acabado' }, value: { en: 'Hard trowel, saw-cut joints', es: 'Llana dura, juntas con sierra' } },
       { label: { en: 'Garage slope', es: 'Pendiente de garaje' }, value: { en: 'Shallow fall to the door', es: 'Caída leve hacia la puerta' } },
     ],
-    heroImageId: '22988252-l-s-g-gallery-29',
+    heroImageId: '22988294-l-s-g-gallery-23',
     status: 'published',
   },
   {
@@ -232,7 +232,7 @@ export const services = Service.array().parse([
       { label: { en: 'Surface spalling', es: 'Descascarado' }, value: { en: 'Usually de-icer damage — repairable', es: 'Casi siempre daño por sal — reparable' } },
       { label: { en: 'Settled slabs', es: 'Losas hundidas' }, value: { en: 'Base failure — replacement, not patching', es: 'Falla de base — reemplazo, no parche' } },
     ],
-    heroImageId: '22988255-l-s-g-gallery-9',
+    heroImageId: '22988287-l-s-g-gallery-21',
     status: 'published',
   },
   {
@@ -270,7 +270,7 @@ export const services = Service.array().parse([
       { label: { en: 'Under slab', es: 'Bajo la losa' }, value: { en: 'Vapor barrier over compacted base', es: 'Barrera de vapor sobre base compactada' } },
       { label: { en: 'Window wells', es: 'Pozos de ventana' }, value: { en: 'Drainage designed in, not added later', es: 'Drenaje resuelto desde el diseño' } },
     ],
-    heroImageId: '22988258-l-s-g-gallery-11',
+    heroImageId: '22988278-l-s-g-gallery-39',
     status: 'published',
   },
   {
@@ -309,7 +309,7 @@ export const services = Service.array().parse([
       { label: { en: 'Base', es: 'Base' }, value: { en: 'Compacted in lifts', es: 'Compactada por capas' } },
       { label: { en: 'Sizing', es: 'Dimensionamiento' }, value: { en: 'Measured to the rig, plus door-side working room', es: 'Medida a la unidad, más espacio del lado de la puerta' } },
     ],
-    heroImageId: '22988259-l-s-g-gallery-12',
+    heroImageId: '22988273-l-s-g-gallery-8',
     status: 'published',
   },
   {

@@ -55,7 +55,7 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
 
   return (
     <>
-      <Header />
+      <Header locale={locale} />
       <main>
         <section className="border-joint/40 relative border-b">
           <div className="mx-auto grid w-full max-w-[110rem] items-stretch lg:grid-cols-[1.05fr_0.95fr]">

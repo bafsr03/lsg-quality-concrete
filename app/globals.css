@@ -115,3 +115,43 @@
     transform: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Featured-work band. CSS only — an infinite marquee costs zero JavaScript,
+   and it degrades to an ordinary horizontal scroll container when the visitor
+   has asked for reduced motion.
+   --------------------------------------------------------------------------- */
+.marquee {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.marquee::-webkit-scrollbar {
+  display: none;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .marquee {
+    overflow-x: hidden;
+  }
+  .marquee-track {
+    animation: marquee 68s linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* The track holds the list twice; -50% lands exactly on the seam. */
+    transform: translate3d(-50%, 0, 0);
+  }
+}

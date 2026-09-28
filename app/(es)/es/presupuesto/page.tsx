@@ -1,27 +1,16 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/site/header'
-import { Footer } from '@/components/site/footer'
+import { EstimatePage } from '@/components/pages/estimate-page'
 import { alternates } from '@/lib/i18n/alternates'
 
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Solicitar presupuesto gratis',
+  title: 'Presupuesto de Concreto Gratis | Condado de Utah',
   description:
-    'Cuéntenos sobre el trabajo —entrada, patio, escalones u obra plana— y reciba un presupuesto por escrito sin costo en el Condado de Utah y el Valle de Salt Lake.',
+    'Describa su entrada, patio, escalones u obra plana y vea un rango de precio al instante, con precios reales de Utah. Presupuestos gratis por escrito.',
   alternates: alternates('es', '/free-estimate/', '/es/presupuesto/'),
 }
 
 export default function Page() {
-  return (
-    <>
-      <Header />
-      <main className="mx-auto w-full max-w-[110rem] px-5 py-24 sm:px-8">
-        <h1 className="text-title font-bold" style={{ fontStretch: '118%', letterSpacing: 'var(--tracking-display)' }}>
-          Solicitar presupuesto
-        </h1>
-      </main>
-      <Footer locale="es" />
-    </>
-  )
+  return <EstimatePage locale="es" />
 }

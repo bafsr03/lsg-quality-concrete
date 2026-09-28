@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+.env*
+!.env.example
+.vercel
+.DS_Store
+next-env.d.ts
+*.tsbuildinfo
+
+# Raw WordPress capture — archived reference, not shipped.
+# Normalized output lands in public/images/ and content/generated/.
+_capture/

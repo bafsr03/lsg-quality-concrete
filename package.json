@@ -1,0 +1,39 @@
+{
+  "name": "lsg-quality-concrete",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc --noEmit",
+    "verify:static": "node scripts/verify-static.mjs",
+    "verify:hreflang": "node scripts/verify-hreflang.mjs",
+    "verify": "pnpm typecheck && pnpm build && pnpm verify:static && pnpm verify:hreflang"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^22.19.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.3.6",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.1.18",
+    "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript-eslint": "8.70.1"
+    }
+  },
+  "packageManager": "pnpm@9.15.2"
+}

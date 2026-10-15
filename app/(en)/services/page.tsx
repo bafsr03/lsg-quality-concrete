@@ -5,9 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Concrete Services | Utah County & Salt Lake Valley',
+  title: 'All Services | Concrete, Landscaping & Remodeling',
   description:
-    'Driveways, patios, walkways, steps, floors, RV pads, basement slabs and concrete repair across Utah County and the south Salt Lake Valley.',
+    'Every service we offer across Utah County and the south Salt Lake Valley: concrete, landscaping, remodeling, and electrical and plumbing through licensed partners.',
   alternates: alternates('en', '/services/', '/es/servicios/'),
 }
 

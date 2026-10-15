@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { DivisionId } from './schema'
 
 /**
  * Real reviews, migrated verbatim from the Site Reviews plugin on the old
@@ -23,11 +24,15 @@ export const Testimonial = z.object({
   rating: z.number().int().min(1).max(5),
   /** Language the review was actually written in. */
   lang: z.enum(['en', 'es']),
+  /** The trade the job was in, where the review makes it clear. Trade pages
+   *  show their own reviews first. */
+  division: DivisionId.optional(),
 })
 
 export const testimonials = Testimonial.array().parse([
   {
     id: '22988404',
+    division: 'concrete',
     title: 'Basement stairs',
     body: 'He did a great job nice to work with Leny and his guy on time and ready to go.',
     author: 'Mike',
@@ -37,6 +42,7 @@ export const testimonials = Testimonial.array().parse([
   },
   {
     id: '22988403',
+    division: 'concrete',
     title: '5 year continued partnerhsip',
     body: 'Lenin has been a customer of ours since we first started – 5 years ago. He is a fantastic man and does great work. Him and his crew do a great job, are on-time and run a clean job site.',
     author: 'BCB Ready Mix',
@@ -46,6 +52,7 @@ export const testimonials = Testimonial.array().parse([
   },
   {
     id: '22988402',
+    division: 'concrete',
     title: 'Hot tub pad and patio.',
     body: 'We just had LSG Quality Concrete pour concrete at our residence. They poured a patio and a pad for a hot tub. These guys were great! Great communication and they did a great job. Don’t hesitate to use these guys.',
     author: 'Travis Clapie',

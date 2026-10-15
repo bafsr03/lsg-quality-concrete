@@ -5,8 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Nuestro Trabajo en Fotos',
-  description: 'Fotografías de nuestras obras en el Condado de Utah y el Valle de Salt Lake: cimbras, subrasante, vertidos y obra plana de concreto terminada.',
+  title: 'Nuestro Trabajo en Fotos | Concreto y Remodelación',
+  description:
+    'Fotografías de nuestras obras en el Condado de Utah y el Valle de Salt Lake: obra plana, escalones y losas de concreto, y remodelación de interiores.',
   alternates: alternates('es', '/gallery/', '/es/galeria/'),
 }
 

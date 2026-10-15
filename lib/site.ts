@@ -6,12 +6,29 @@
  * contractor, and licensing and review claims carry real legal and
  * manual-action risk if they ship wrong.
  */
-export const SITE_URL = 'https://lsgqualityconcrete.com'
+/**
+ * The production origin. The new domain is not bought yet, so it comes from the
+ * environment; the fallback is only ever used for local builds.
+ */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lsgcontractors.example').replace(/\/$/, '')
+
+/**
+ * Search engines may index only the real production deployment. Preview URLs,
+ * local builds and the placeholder origin all ship noindex.
+ */
+export const INDEXABLE =
+  process.env.VERCEL_ENV === 'production' && !!process.env.NEXT_PUBLIC_SITE_URL && !SITE_URL.endsWith('.example')
 
 export const BUSINESS = {
   /** Canonical spelling. The old site used "L.S.G", Yelp and the state
    *  registration use "LSG". One spelling everywhere, or citations fragment. */
-  name: 'LSG Quality Concrete',
+  /** Matches the owner's logo ("LSG CONTRACTORS / GENERAL SERVICES"). The
+   *  logo art carries the name too: a rename needs new art in brand/source/
+   *  and a re-run of scripts/build-brand.mjs. */
+  name: 'LSG Contractors',
+  shortName: 'LSG',
+  /** Trading name of the existing LLC (a DBA), so licence, insurance and EIN
+   *  stay with the entity that holds them. */
   legalName: 'LSG Quality Concrete, LLC',
   owner: 'Lenin Guzman',
 
@@ -40,6 +57,13 @@ export const BUSINESS = {
   /** UNCONFIRMED — do not render. AggregateRating markup requires real,
    *  verifiable counts backed by reviews displayed on the page. */
   aggregateRating: null as { ratingValue: number; reviewCount: number } | null,
+
+  /**
+   * Trades LSG is licensed to perform itself. Where false, that trade's pages
+   * say the work is performed by Utah-licensed partners — Utah does not allow
+   * advertising electrical or plumbing work without the licence.
+   */
+  licensedTrades: { electrical: false, plumbing: false },
 
   offers: { seniorDiscountPct: 10, referralRewardUsd: 100, freeEstimates: true },
 } as const

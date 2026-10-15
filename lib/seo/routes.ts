@@ -1,6 +1,9 @@
 import { publishedServices } from '@/content/services'
 import { publishedCities } from '@/content/cities'
-import { servicePath, cityPath } from '@/lib/content/resolve'
+import { publishedDivisions } from '@/content/divisions'
+import { publishedCombos } from '@/content/combos'
+import { cityPath, comboPath, divisionPath, servicePath } from '@/lib/content/resolve'
+import { pathPair, type StaticPageKey } from '@/lib/i18n/paths'
 
 export type RouteEntry = {
   enPath: string
@@ -18,29 +21,32 @@ export type RouteEntry = {
  * does not emit.
  */
 export function routeRegistry(): RouteEntry[] {
+  const page = (key: StaticPageKey, priority: number, changeFrequency: RouteEntry['changeFrequency']): RouteEntry => ({
+    enPath: pathPair(key).en,
+    esPath: pathPair(key).es,
+    priority,
+    changeFrequency,
+  })
+
   const statics: RouteEntry[] = [
-    { enPath: '/', esPath: '/es/', priority: 1.0, changeFrequency: 'monthly' },
-    { enPath: '/services/', esPath: '/es/servicios/', priority: 0.9, changeFrequency: 'monthly' },
-    { enPath: '/gallery/', esPath: '/es/galeria/', priority: 0.7, changeFrequency: 'monthly' },
-    { enPath: '/reviews/', esPath: '/es/resenas/', priority: 0.7, changeFrequency: 'monthly' },
-    { enPath: '/about/', esPath: '/es/nosotros/', priority: 0.6, changeFrequency: 'yearly' },
-    { enPath: '/contact/', esPath: '/es/contacto/', priority: 0.8, changeFrequency: 'yearly' },
-    { enPath: '/free-estimate/', esPath: '/es/presupuesto/', priority: 0.9, changeFrequency: 'yearly' },
+    page('home', 1.0, 'monthly'),
+    page('services', 0.8, 'monthly'),
+    page('serviceAreas', 0.8, 'monthly'),
+    page('gallery', 0.7, 'monthly'),
+    page('reviews', 0.7, 'monthly'),
+    page('about', 0.6, 'yearly'),
+    page('contact', 0.8, 'yearly'),
+    page('estimate', 0.9, 'yearly'),
   ]
 
-  const services: RouteEntry[] = publishedServices.map((s) => ({
-    enPath: servicePath(s, 'en'),
-    esPath: servicePath(s, 'es'),
-    priority: 0.8,
-    changeFrequency: 'monthly',
-  }))
+  const pair = <T,>(items: T[], fn: (x: T, l: 'en' | 'es') => string, priority: number): RouteEntry[] =>
+    items.map((x) => ({ enPath: fn(x, 'en'), esPath: fn(x, 'es'), priority, changeFrequency: 'monthly' }))
 
-  const cities: RouteEntry[] = publishedCities.map((c) => ({
-    enPath: cityPath(c, 'en'),
-    esPath: cityPath(c, 'es'),
-    priority: 0.8,
-    changeFrequency: 'monthly',
-  }))
-
-  return [...statics, ...services, ...cities]
+  return [
+    ...statics,
+    ...pair(publishedDivisions, divisionPath, 0.9),
+    ...pair(publishedServices, servicePath, 0.8),
+    ...pair(publishedCities, cityPath, 0.8),
+    ...pair(publishedCombos, comboPath, 0.7),
+  ]
 }

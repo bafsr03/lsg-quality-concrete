@@ -100,19 +100,21 @@ export function PourSequence({
   }, [])
 
   return (
-    <section ref={root} className="border-joint/40 bg-shadow text-slab border-t">
+    <section ref={root} className="bg-navy relative isolate overflow-clip text-white">
+      <div aria-hidden="true" className="bg-blue/50 absolute -top-40 right-[-10rem] -z-10 h-[36rem] w-[36rem] rounded-full blur-[120px]" />
+      <div aria-hidden="true" className="bg-sky/20 absolute bottom-0 left-[-12rem] -z-10 h-[30rem] w-[30rem] rounded-full blur-[120px]" />
       <div className="mx-auto w-full max-w-[110rem] px-5 pt-16 sm:px-8 sm:pt-24">
-        <h2 className="text-title max-w-[14ch] leading-[0.95] font-bold" style={{ fontStretch: '118%', letterSpacing: 'var(--tracking-display)' }}>
+        <h2 className="text-title type-display max-w-[14ch]">
           {heading}
         </h2>
-        <p className="text-slab/65 text-lede mt-5 max-w-[46ch] leading-relaxed text-pretty">{lede}</p>
+        <p className="text-lede mt-5 max-w-[46ch] leading-relaxed text-pretty text-white/70">{lede}</p>
       </div>
 
       <div data-pour-track className="mx-auto w-full max-w-[110rem] px-5 pb-16 sm:px-8 sm:pb-24">
         <div className="lg:grid lg:grid-cols-[1fr_1.05fr] lg:gap-14">
           {/* Media column: sticky with CSS alone; GSAP only cross-fades it. */}
           <div className="sticky top-24 hidden h-[62svh] lg:block">
-            <div className="relative h-full w-full overflow-hidden">
+            <div className="relative h-full w-full overflow-hidden rounded-[var(--radius-panel)] border-[6px] border-white/10 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
               {steps.map((s, i) => (
                 <Image
                   key={s.id}
@@ -134,24 +136,26 @@ export function PourSequence({
             {steps.map((s, i) => (
               <li
                 key={s.id}
-                className="border-slab/15 flex flex-col justify-center border-t py-10 lg:min-h-[62svh] lg:py-0"
+                className="flex flex-col justify-center border-t border-white/10 py-10 lg:min-h-[62svh] lg:py-0"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <span
                     data-pour-mark
                     data-active={i === 0}
-                    className="bg-slab/20 data-[active=true]:bg-mark h-2 w-8 shrink-0 transition-colors duration-300"
-                  />
-                  <span className="text-slab/50 text-xs font-semibold">{s.step}</span>
+                    className="type-display data-[active=true]:bg-mark data-[active=true]:text-navy grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/10 text-2xl text-white/60 transition-[background-color,color,scale] duration-300 data-[active=true]:scale-110"
+                  >
+                    {i + 1}
+                  </span>
+                  <span className="text-mark text-sm font-bold">{s.step}</span>
                 </div>
 
-                <h3 className="text-heading mt-4 max-w-[16ch] leading-tight font-bold" style={{ fontStretch: '112%' }}>
+                <h3 className="text-heading type-heading mt-5 max-w-[16ch]">
                   {s.title}
                 </h3>
-                <p className="text-slab/70 mt-4 max-w-[46ch] leading-relaxed">{s.body}</p>
+                <p className="mt-4 max-w-[46ch] leading-relaxed text-white/75">{s.body}</p>
 
                 {/* Small screens get the photograph inline with its step. */}
-                <div className="relative mt-6 aspect-[4/3] w-full overflow-hidden lg:hidden">
+                <div className="relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-photo)] lg:hidden">
                   <Image
                     src={s.src}
                     alt={s.alt}

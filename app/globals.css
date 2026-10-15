@@ -1,36 +1,49 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   "The Slab"
+   "On the job"
 
-   Concrete is divided by saw-cut control joints on a grid — they decide where
-   the slab cracks. That grid is this site's layout system: sections are pours,
-   separated by hairline joints.
+   The palette comes straight off the mascot and the logo: cap-blue,
+   sky-blue work shirt, safety-gold badge, the red handle of his screed pole.
+   Blue is the field, gold is the only action colour, red is a spark used in
+   two or three places at most.
 
-   The palette is sampled from cured concrete rather than the Divi template's
-   default blue. The brand navy and gold survive, but as ink and marking paint.
+   Token names from the first build are kept (slab, ink, mark, joint…) so
+   every page inherits the new palette; the new brand colours sit beside them.
    --------------------------------------------------------------------------- */
 @theme {
-  --color-slab: #cfcdc7;    /* page base — cured concrete, a true neutral grey */
-  --color-screed: #e9e7e2;  /* raised panels and form surfaces */
-  --color-joint: #8e8c87;   /* score lines, rules, secondary text */
-  --color-ink: #14213a;     /* body and headlines — brand #022966, desaturated */
-  --color-mark: #f2b705;    /* the ONLY action colour — layout paint, safety vest */
-  --color-shadow: #2b2d2e;  /* inverted sections and footer */
+  /* Surfaces */
+  --color-slab: #f6f8fc;    /* page base — cool bright white, not grey */
+  --color-screed: #e7eefb;  /* raised panels, form surfaces — a whisper of the cap blue */
+  --color-joint: #5d6a88;   /* rules and secondary text — blue-slate, AA on slab */
+  --color-shadow: #0a1f52;  /* inverted sections and footer — brand navy, brightened */
+
+  /* Brand */
+  --color-ink: #0a1f52;     /* body and headlines — brand navy #022966, lifted */
+  --color-navy: #0a1f52;
+  --color-blue: #1652d9;    /* the cap — the main colour field */
+  --color-blue-deep: #0e3aa8;
+  --color-sky: #5bb8ff;     /* the shirt */
+  --color-mark: #ffc21a;    /* safety gold — the ONLY action colour */
+  --color-gold-deep: #f0a800;
+  --color-spark: #e8392b;   /* the pole — sparing accent */
 
   --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 
-  /* One family, using its width axis as the expressive tool. Headlines run
-     expanded and heavy so type reads as structure, like formwork signage. */
-  --text-display: clamp(2.6rem, 1.15rem + 4.5vw, 5.4rem);
-  --text-title: clamp(2rem, 1.1rem + 3.4vw, 4rem);
-  --text-heading: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
-  --text-lede: clamp(1.125rem, 1.02rem + 0.45vw, 1.4rem);
+  --text-display: clamp(2.7rem, 1.1rem + 5vw, 6rem);
+  --text-title: clamp(2.1rem, 1.1rem + 3.6vw, 4.25rem);
+  --text-heading: clamp(1.6rem, 1.1rem + 1.6vw, 2.6rem);
+  --text-lede: clamp(1.1rem, 1.02rem + 0.4vw, 1.35rem);
 
-  --tracking-display: -0.035em;
+  --tracking-display: -0.03em;
 
-  /* The joint grid. 1px hairlines that hold their weight on any display. */
   --spacing-joint: 1px;
+
+  --radius-photo: 1.25rem;
+  --radius-panel: 1.75rem;
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 @layer base {
@@ -39,8 +52,6 @@
     color: var(--color-ink);
   }
 
-  /* Tabular figures matter more here than usual: $/sq ft, "15 years", and a
-     phone number that appears on every page. */
   body {
     font-variant-numeric: tabular-nums;
     text-rendering: optimizeLegibility;
@@ -52,37 +63,219 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 3px solid var(--color-mark);
     outline-offset: 3px;
+    border-radius: 0.25rem;
   }
 }
 
 @utility joint-rule {
-  border-color: color-mix(in oklab, var(--color-joint) 55%, transparent);
+  border-color: color-mix(in oklab, var(--color-joint) 35%, transparent);
 }
 
-/* Reduced motion is honoured in three places; this is the blanket. The other
-   two are the GSAP loader (which never even downloads the library) and the
-   smooth-scroll gate. Reduced-motion users get a fast, complete site — not a
-   degraded one. */
+/* The headline voice: heavy, expanded and slanted like the logo's wordmark. */
+@utility type-display {
+  font-weight: 800;
+  font-style: italic;
+  font-stretch: 125%;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.92;
+}
+@utility type-heading {
+  font-weight: 800;
+  font-style: italic;
+  font-stretch: 118%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons. Gold is the action; everything else is secondary.
+   --------------------------------------------------------------------------- */
+@utility btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 1rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition:
+    transform 220ms var(--ease-spring),
+    background-color 200ms,
+    color 200ms,
+    box-shadow 220ms,
+    border-color 200ms;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+@utility btn-gold {
+  background: var(--color-mark);
+  color: var(--color-navy);
+  box-shadow:
+    0 1px 0 0 #fff8 inset,
+    0 10px 24px -10px color-mix(in oklab, var(--color-gold-deep) 90%, transparent);
+  &:hover {
+    background: #ffd04d;
+    box-shadow:
+      0 1px 0 0 #fff8 inset,
+      0 16px 32px -12px color-mix(in oklab, var(--color-gold-deep) 100%, transparent);
+  }
+  /* A glint that sweeps across now and then — the one ambient motion on a button. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 35%, #fff9 50%, transparent 65%);
+    transform: translateX(-120%);
+  }
+}
+@utility btn-blue {
+  background: var(--color-blue);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px var(--color-blue);
+  &:hover {
+    background: var(--color-blue-deep);
+  }
+}
+@utility btn-ghost-light {
+  border: 2px solid #ffffff55;
+  color: #fff;
+  &:hover {
+    border-color: #fff;
+    background: #ffffff14;
+  }
+}
+@utility btn-ghost-dark {
+  border: 2px solid color-mix(in oklab, var(--color-navy) 22%, transparent);
+  color: var(--color-navy);
+  &:hover {
+    border-color: var(--color-navy);
+  }
+}
+
+/*
+ * Link styles that repeat dozens of times per page (menu, footer, city lists).
+ * As utilities they are one class name in the HTML instead of a dozen — and
+ * every page ships its markup twice (HTML plus the RSC payload), so this is
+ * most of what keeps pages inside the 20 KB HTML budget.
+ */
+@utility menu-link {
+  display: block;
+  padding-block: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-joint);
+  transition: color 0.2s;
+  &:hover {
+    color: var(--color-navy);
+  }
+}
+@utility foot-link {
+  display: block;
+  padding-block: 0.375rem;
+  color: rgb(255 255 255 / 0.72);
+  transition: color 0.2s, translate 0.2s;
+  &:hover {
+    color: var(--color-mark);
+    translate: 0.25rem 0;
+  }
+}
+@utility link-card {
+  display: block;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1rem 1.25rem;
+  box-shadow:
+    0 6px 18px -10px rgba(10, 31, 82, 0.4),
+    0 0 0 1px color-mix(in oklab, var(--color-blue) 12%, transparent);
+  transition: background-color 0.2s, translate 0.2s;
+  & > :first-child {
+    display: block;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+  & > :nth-child(2) {
+    display: block;
+    margin-top: 0.125rem;
+    font-size: 0.75rem;
+    color: var(--color-joint);
+  }
+  &:hover {
+    background: var(--color-blue);
+    translate: 0 -2px;
+  }
+  &:hover > * {
+    color: #fff;
+  }
+}
+
+/* The cap-blue field used behind heroes and the closing CTA. */
+@utility field-blue {
+  background:
+    radial-gradient(60rem 40rem at 85% 10%, color-mix(in oklab, var(--color-sky) 55%, transparent), transparent 60%),
+    radial-gradient(50rem 36rem at 0% 100%, color-mix(in oklab, var(--color-navy) 85%, transparent), transparent 65%),
+    linear-gradient(160deg, var(--color-blue) 0%, var(--color-blue-deep) 70%, var(--color-navy) 100%);
+  color: #fff;
+}
+
+/* Reduced motion: everything settles in its final state instantly. Every
+   keyframe below ends at rest, so this never strands content mid-move. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
 /* ---------------------------------------------------------------------------
-   The signature moment: the joint grid cuts itself across the hero on load.
-   One orchestrated sequence, ~700ms, then the page is still. Nothing else on
-   the site animates unprompted.
+   Page-load entrance. Short, staggered by inline animation-delay.
    --------------------------------------------------------------------------- */
+.rise {
+  animation: rise 720ms var(--ease-out-soft) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pop-in {
+  animation: pop-in 760ms var(--ease-spring) both;
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.85) rotate(var(--tilt-from, -6deg));
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+
+/* The joint grid (kept from the first build) now draws in white over blue. */
 .joint-draw {
-  animation: joint-cut 620ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation: joint-cut 900ms var(--ease-out-soft) both;
 }
 .joint-draw-v {
   stroke-dasharray: 100;
@@ -92,34 +285,232 @@
   stroke-dasharray: 100;
   stroke-dashoffset: -100;
 }
-
 @keyframes joint-cut {
   to {
     stroke-dashoffset: 0;
   }
 }
 
-/* The headline settles into the grid the joints just cut. */
-.hero-settle {
-  animation: hero-settle 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 220ms;
+/* ---------------------------------------------------------------------------
+   The mascot. He hops onto the job, then keeps working: a weight-shift bob
+   with a squash on landing, and a ground shadow that breathes with him.
+   --------------------------------------------------------------------------- */
+/* Three nested layers so each owns one animation and none restarts another:
+   .mascot-arrive (once) > .mascot-jump (on hover) > .mascot-work (forever). */
+.mascot-arrive,
+.mascot-jump,
+.mascot-work {
+  transform-origin: 50% 100%;
+}
+.mascot-arrive {
+  animation: mascot-arrive 900ms var(--ease-spring) 350ms both;
+}
+.mascot-work {
+  animation: mascot-work 2.8s ease-in-out 1.3s infinite;
+}
+@keyframes mascot-arrive {
+  0% {
+    opacity: 0;
+    transform: translateY(70%) scale(0.6) rotate(-8deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-8%) scale(1.04) rotate(2deg);
+  }
+  80% {
+    transform: translateY(0) scale(1.03, 0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mascot-work {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translateY(-5%) rotate(-2.5deg);
+  }
+  40% {
+    transform: translateY(0) scale(1.02, 0.97);
+  }
+  60% {
+    transform: translateY(-3%) rotate(2deg);
+  }
+  80% {
+    transform: none;
+  }
+}
+.mascot-shadow {
+  animation: mascot-shadow 2.8s ease-in-out 1.3s infinite;
+}
+@keyframes mascot-shadow {
+  0%,
+  40%,
+  80%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.45;
+  }
+  20%,
+  60% {
+    transform: scaleX(0.8);
+    opacity: 0.28;
+  }
+}
+/* Hovering him gets a jump — he is the one thing on the page you can poke. */
+.mascot-stage:hover .mascot-jump {
+  animation: mascot-jump 620ms var(--ease-spring);
+}
+@keyframes mascot-jump {
+  0% {
+    transform: none;
+  }
+  30% {
+    transform: translateY(0) scale(1.06, 0.9);
+  }
+  60% {
+    transform: translateY(-14%) rotate(-4deg);
+  }
+  100% {
+    transform: none;
+  }
 }
 
-@keyframes hero-settle {
+/* Speech bubble: pops after he lands, then a small nudge every few seconds. */
+.bubble {
+  transform-origin: 0% 100%;
+  animation:
+    bubble-pop 520ms var(--ease-spring) 1.15s both,
+    bubble-nudge 5s ease-in-out 3s infinite;
+}
+@keyframes bubble-pop {
   from {
     opacity: 0;
-    transform: translateY(0.4em);
+    transform: scale(0.4) rotate(-10deg);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
+@keyframes bubble-nudge {
+  0%,
+  88%,
+  100% {
+    transform: none;
+  }
+  92% {
+    transform: rotate(-4deg) scale(1.05);
+  }
+  96% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Sparkles around him. */
+.sparkle {
+  animation: sparkle 2.4s ease-in-out infinite both;
+}
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(0.4) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1) rotate(90deg);
+    opacity: 1;
+  }
+}
+
+/* Rotating seal. */
+.spin-slow {
+  animation: spin 18s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Photographs drift a few pixels — enough to feel alive, never enough to read as motion sickness. */
+.drift {
+  animation: drift 7s ease-in-out infinite;
+}
+.drift-alt {
+  animation: drift 8.5s ease-in-out -3s infinite;
+}
+@keyframes drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+/* Live dot: a ring that pings outward. */
+.ping::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: inherit;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* The phone handset rings now and then. */
+.ringing {
+  animation: ring 4s ease-in-out 2s infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes ring {
+  0%,
+  86%,
+  100% {
+    transform: none;
+  }
+  88%,
+  92%,
+  96% {
+    transform: rotate(-14deg);
+  }
+  90%,
+  94%,
+  98% {
+    transform: rotate(14deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-gold::after {
+    animation: glint 5s ease-in-out 1.8s infinite;
+  }
+}
+@keyframes glint {
+  0% {
+    transform: translateX(-120%);
+  }
+  18%,
+  100% {
+    transform: translateX(120%);
+  }
+}
 
 /* ---------------------------------------------------------------------------
-   Featured-work band. CSS only — an infinite marquee costs zero JavaScript,
-   and it degrades to an ordinary horizontal scroll container when the visitor
-   has asked for reduced motion.
+   Marquees — the caution-tape ribbon and the featured-work lane. CSS only;
+   they fall back to ordinary horizontal scrollers under reduced motion.
    --------------------------------------------------------------------------- */
 .marquee {
   overflow-x: auto;
@@ -138,7 +529,10 @@
     overflow-x: hidden;
   }
   .marquee-track {
-    animation: marquee 68s linear infinite;
+    animation: marquee var(--marquee-speed, 68s) linear infinite;
+  }
+  .marquee-reverse .marquee-track {
+    animation-direction: reverse;
   }
   .marquee:hover .marquee-track,
   .marquee:focus-within .marquee-track {
@@ -151,7 +545,132 @@
     transform: translate3d(0, 0, 0);
   }
   to {
-    /* The track holds the list twice; -50% lands exactly on the seam. */
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Caution tape: real tape is gold with navy chevrons at the edges. */
+.tape {
+  background:
+    repeating-linear-gradient(-45deg, var(--color-navy) 0 10px, transparent 10px 20px) top / 100% 7px no-repeat,
+    repeating-linear-gradient(-45deg, var(--color-navy) 0 10px, transparent 10px 20px) bottom / 100% 7px no-repeat,
+    var(--color-mark);
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-driven reveals and count-ups. Zero JavaScript: browsers without
+   scroll timelines (or visitors who asked for less motion) simply see the
+   finished state, because the resting styles are the visible ones.
+   --------------------------------------------------------------------------- */
+@property --n {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+.count {
+  --n: var(--to);
+  counter-reset: n var(--n);
+}
+.count::after {
+  content: counter(n);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .count {
+      animation: count-up 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+
+    .reveal-up {
+      animation: reveal-up 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+
+    .reveal-tilt {
+      animation: reveal-tilt 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+
+    .peek {
+      animation: peek 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+@keyframes count-up {
+  from {
+    --n: 0;
+  }
+  to {
+    --n: var(--to);
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-tilt {
+  from {
+    opacity: 0;
+    transform: translateY(60px) rotate(-3deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes peek {
+  from {
+    transform: translateY(65%) rotate(8deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Floating helper: appears once the visitor has scrolled past the hero. */
+.helper {
+  animation: helper-in 600ms var(--ease-spring) 2.2s both;
+}
+@keyframes helper-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .helper {
+      animation: helper-in 1ms linear both;
+      animation-timeline: scroll(root);
+      animation-range: 300px 520px;
+    }
+  }
+}
+.helper-bob {
+  animation: helper-bob 3.2s ease-in-out infinite;
+}
+@keyframes helper-bob {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-2px) rotate(-2deg);
   }
 }

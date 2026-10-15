@@ -2,7 +2,8 @@ import type { Locale } from '@/lib/site'
 import { testimonials } from '@/content/testimonials'
 import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
-import { JointGrid } from '@/components/site/joint-grid'
+import { PageHero } from '@/components/site/page-hero'
+import { StarIcon } from '@/components/brand/icons'
 import { JsonLd } from '@/components/seo/json-ld'
 import { graph, ID, ref } from '@/lib/seo/graph'
 import { QuoteCta } from '@/components/sections/quote-cta'
@@ -22,11 +23,9 @@ const copy = {
 
 function Stars({ rating, label }: { rating: number; label: string }) {
   return (
-    <span role="img" aria-label={label} className="text-mark inline-flex gap-0.5">
+    <span role="img" aria-label={label} className="text-gold-deep inline-flex gap-1">
       {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} aria-hidden="true" className={i < rating ? '' : 'text-joint/40'}>
-          ★
-        </span>
+        <StarIcon key={i} className={`h-5 w-5 ${i < rating ? '' : 'opacity-25'}`} />
       ))}
     </span>
   )
@@ -56,33 +55,22 @@ export function ReviewsPage({ locale }: { locale: Locale }) {
     <>
       <Header locale={locale} />
       <main>
-        <section className="border-joint/40 text-joint/55 relative border-b">
-          <JointGrid />
-          <div className="relative mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8 sm:py-24">
-            <h1
-              className="text-ink text-display max-w-[12ch] leading-[0.9] font-bold"
-              style={{ fontStretch: '120%', letterSpacing: 'var(--tracking-display)' }}
-            >
-              {t.title}
-            </h1>
-            <p className="text-ink/80 text-lede mt-6 max-w-[46ch] leading-relaxed">{t.lede}</p>
-          </div>
-        </section>
+        <PageHero size="display" title={t.title} lede={t.lede} mascotBubble={locale === 'es' ? '¡Gracias!' : 'Thanks, folks!'} />
 
-        <section className="mx-auto w-full max-w-[110rem] px-5 sm:px-8">
-          <ul className="border-joint/40 grid border-b lg:grid-cols-2">
+        <section className="mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8 sm:py-20">
+          <ul className="grid gap-5 lg:grid-cols-2">
             {testimonials.map((r) => (
-              <li key={r.id} className="border-joint/40 border-t px-1 py-8 lg:px-8">
+              <li key={r.id} className="reveal-up relative rounded-[var(--radius-panel)] bg-white p-7 shadow-[0_24px_50px_-28px_rgba(10,31,82,0.5)] ring-1 ring-[color-mix(in_oklab,var(--color-blue)_10%,transparent)] sm:p-9">
                 <Stars rating={r.rating} label={t.stars(r.rating)} />
-                <h2 className="text-ink mt-3 text-base font-semibold" style={{ fontStretch: '112%' }}>
+                <h2 className="text-navy type-heading mt-4 text-xl">
                   {r.title}
                 </h2>
                 {/* Reviews stay in the language they were written in. */}
                 <blockquote lang={r.lang} className="text-ink/80 mt-3 max-w-[52ch] leading-relaxed">
                   {r.body}
                 </blockquote>
-                <p className="text-joint mt-4 text-xs">
-                  {r.author} ·{' '}
+                <p className="text-joint mt-5 text-sm"><span className="text-navy font-bold">
+                  {r.author}</span>{', '}
                   <time dateTime={r.date}>
                     {new Date(r.date + 'T00:00:00Z').toLocaleDateString(locale === 'es' ? 'es-US' : 'en-US', {
                       year: 'numeric',

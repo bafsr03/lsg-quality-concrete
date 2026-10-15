@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Archivo } from 'next/font/google'
 import '../globals.css'
-import { BUSINESS, SITE_URL } from '@/lib/site'
+import { BUSINESS, INDEXABLE, SITE_URL } from '@/lib/site'
 import { graph, organizationNode, websiteNode } from '@/lib/seo/graph'
 import { JsonLd } from '@/components/seo/json-ld'
 
@@ -13,25 +13,30 @@ const archivo = Archivo({
   variable: '--font-archivo',
   subsets: ['latin', 'latin-ext'],
   axes: ['wdth'],
+  // Italic carries the headline voice — it echoes the slanted logo wordmark.
+  style: ['normal', 'italic'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `Concrete Contractor in Eagle Mountain, UT | ${BUSINESS.name}`,
+    default: `General Contractor in Eagle Mountain, UT | ${BUSINESS.name}`,
     template: `%s | ${BUSINESS.name}`,
   },
   description:
-    `Driveways, patios, steps and flatwork poured across Utah County and the south ` +
-    `Salt Lake Valley. ${BUSINESS.yearsExperience}+ years, free estimates. Call ${BUSINESS.phone.display}.`,
+    `Concrete, landscaping and remodeling across Utah County and the south Salt Lake ` +
+    `Valley. One local crew, free estimates. Call ${BUSINESS.phone.display}.`,
   openGraph: {
     type: 'website',
     locale: 'en_US',
     siteName: BUSINESS.name,
     url: SITE_URL,
   },
-  robots: { index: true, follow: true, 'max-image-preview': 'large' },
+  // Only the real production domain is indexable; see INDEXABLE in lib/site.ts.
+  robots: INDEXABLE
+    ? { index: true, follow: true, 'max-image-preview': 'large' }
+    : { index: false, follow: false },
 }
 
 export default function EnLayout({ children }: LayoutProps<'/'>) {

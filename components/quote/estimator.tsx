@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   estimate,
@@ -77,7 +77,18 @@ const COPY = {
 } as const
 
 const field =
-  'w-full border border-ink/20 bg-slab px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-ink'
+  'w-full rounded-xl border-2 border-screed bg-white px-4 py-3 text-base text-navy outline-none transition-colors focus:border-blue'
+
+const legend = 'text-navy text-heading type-heading flex items-center gap-3'
+
+/** The form really is a five-step sequence, so the steps carry numbers. */
+function Step({ n }: { n: number }) {
+  return (
+    <span aria-hidden="true" className="bg-mark text-navy grid h-10 w-10 shrink-0 place-items-center rounded-full text-lg not-italic">
+      {n}
+    </span>
+  )
+}
 
 export function Estimator({
   services,
@@ -93,7 +104,10 @@ export function Estimator({
   phoneHref: string
 }) {
   const t = COPY[locale]
-  const renderedAt = useRef(Date.now())
+  // Mount time, for the server's too-fast-to-be-human spam gate. Set in an
+  // effect because render must stay pure.
+  const renderedAt = useRef(0)
+  useEffect(() => { renderedAt.current = Date.now() }, [])
   const nameRef = useRef<HTMLInputElement>(null)
 
   const [job, setJob] = useState<EstimateInput>({
@@ -118,6 +132,19 @@ export function Estimator({
   })
   const [status, setStatus] = useState<Status>('idle')
   const [message, setMessage] = useState('')
+
+  // The page also carries the project form for the other trades, below this
+  // one. The fixed bar belongs to this form only, so it shows while the
+  // estimator is on screen and gets out of the way once you scroll past it.
+  const formRef = useRef<HTMLFormElement>(null)
+  const [inView, setInView] = useState(true)
+  useEffect(() => {
+    const el = formRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { rootMargin: '-25% 0px -40% 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const unit = SERVICE_RATES.find((r) => r.id === job.serviceId)?.unit ?? 'area'
   const result = useMemo(() => estimate(job), [job])
@@ -145,6 +172,7 @@ export function Estimator({
           renderedAt: renderedAt.current,
           estimateLow: result?.low ?? null,
           estimateHigh: result?.high ?? null,
+          kind: 'estimate',
           serviceName: services.find((s) => s.id === job.serviceId)?.name ?? job.serviceId,
           cityName: cities.find((c) => c.id === contact.cityId)?.name ?? '',
         }),
@@ -158,11 +186,11 @@ export function Estimator({
   }
 
   return (
-    <form onSubmit={submit} className="mx-auto grid w-full max-w-[110rem] gap-x-14 gap-y-12 px-5 pt-14 pb-32 sm:px-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:pb-14">
+    <form ref={formRef} onSubmit={submit} className="mx-auto grid w-full max-w-[110rem] gap-x-14 gap-y-12 px-5 pt-14 pb-32 sm:px-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:pb-14">
       <div className="space-y-12">
         {/* 1 — job type */}
         <fieldset>
-          <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s1}</legend>
+          <legend className={legend}><Step n={1} />{t.s1}</legend>
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {services.map((s) => {
               const active = job.serviceId === s.id
@@ -170,12 +198,12 @@ export function Estimator({
                 <label key={s.id} className="group cursor-pointer">
                   <input type="radio" name="service" value={s.id} checked={active}
                     onChange={() => set('serviceId', s.id)} className="peer sr-only" />
-                  <span className="border-ink/15 peer-focus-visible:outline-ink block overflow-hidden border transition-colors peer-checked:border-ink peer-checked:border-2 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2">
+                  <span className="peer-checked:ring-blue peer-focus-visible:outline-mark relative block overflow-hidden rounded-2xl bg-white shadow-[0_10px_24px_-16px_rgba(10,31,82,0.6)] ring-2 ring-transparent transition-[box-shadow,translate] group-hover:-translate-y-0.5 peer-checked:ring-4 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2">
                     <span className="relative block aspect-[4/3]">
                       <Image src={s.src} alt="" aria-hidden="true" fill sizes="25vw" quality={70} loading="lazy"
                         className="object-cover transition-transform duration-500 group-hover:scale-105" />
                     </span>
-                    <span className="text-ink block px-3 py-2.5 text-xs font-semibold">{s.name}</span>
+                    <span className="text-navy block px-3 py-3 text-sm font-bold">{s.name}</span>
                   </span>
                 </label>
               )
@@ -185,29 +213,29 @@ export function Estimator({
 
         {/* 2 — size */}
         <fieldset>
-          <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s2}</legend>
+          <legend className={legend}><Step n={2} />{t.s2}</legend>
           <p className="text-joint mt-2 text-sm">{unit === 'steps' ? t.s2hintSteps : t.s2hintArea}</p>
           {unit === 'steps' ? (
             <div className="mt-5 max-w-xs">
-              <label className="text-joint block text-xs" htmlFor="stepCount">{t.steps}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="stepCount">{t.steps}</label>
               <input id="stepCount" type="number" min={1} max={40} inputMode="numeric" className={`${field} mt-1.5`}
                 value={job.stepCount || ''} onChange={(e) => set('stepCount', Number(e.target.value))} />
             </div>
           ) : (
             <div className="mt-5 flex flex-wrap items-end gap-4">
               <div className="w-36">
-                <label className="text-joint block text-xs" htmlFor="lengthFt">{t.length}</label>
+                <label className="text-joint block text-sm font-semibold" htmlFor="lengthFt">{t.length}</label>
                 <input id="lengthFt" type="number" min={1} max={500} inputMode="decimal" className={`${field} mt-1.5`}
                   value={job.lengthFt || ''} onChange={(e) => set('lengthFt', Number(e.target.value))} />
               </div>
               <span className="text-joint pb-3 text-sm">×</span>
               <div className="w-36">
-                <label className="text-joint block text-xs" htmlFor="widthFt">{t.width}</label>
+                <label className="text-joint block text-sm font-semibold" htmlFor="widthFt">{t.width}</label>
                 <input id="widthFt" type="number" min={1} max={500} inputMode="decimal" className={`${field} mt-1.5`}
                   value={job.widthFt || ''} onChange={(e) => set('widthFt', Number(e.target.value))} />
               </div>
               {result && result.unit === 'area' && (
-                <p className="text-ink pb-3 text-sm font-semibold">
+                <p className="text-navy pb-3 text-base font-bold">
                   {result.quantity.toLocaleString()} <span className="text-joint font-normal">{t.area}</span>
                 </p>
               )}
@@ -218,23 +246,23 @@ export function Estimator({
         {/* 3 — options */}
         {unit === 'area' && (
           <fieldset>
-            <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s3}</legend>
+            <legend className={legend}><Step n={3} />{t.s3}</legend>
             <div className="mt-4">
               {([['tearOut', t.tearOut], ['heavyDuty', t.heavyDuty], ['hardAccess', t.hardAccess]] as const).map(([k, label]) => (
                 <label key={k} className="flex cursor-pointer items-start gap-3 py-2">
                   <input type="checkbox" checked={job[k]} onChange={(e) => set(k, e.target.checked)}
-                    className="accent-mark mt-px h-6 w-6 shrink-0" />
-                  <span className="text-ink/85 text-sm">{label}</span>
+                    className="accent-blue mt-px h-6 w-6 shrink-0" />
+                  <span className="text-navy text-[0.95rem]">{label}</span>
                 </label>
               ))}
             </div>
             <div className="mt-6">
-              <span className="text-joint block text-xs">{t.finish}</span>
+              <span className="text-joint block text-sm font-semibold">{t.finish}</span>
               <div className="mt-2 flex flex-wrap gap-2">
                 {(['broom', 'stamped', 'exposed'] as const).map((f) => (
                   <label key={f} className="cursor-pointer">
                     <input type="radio" name="finish" checked={job.finish === f} onChange={() => set('finish', f)} className="peer sr-only" />
-                    <span className="border-ink/20 text-ink/80 peer-checked:bg-ink peer-checked:text-slab peer-focus-visible:outline-ink block border px-4 py-2 text-xs font-medium transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2">
+                    <span className="text-navy peer-checked:bg-blue peer-focus-visible:outline-mark block rounded-full bg-white px-5 py-2.5 text-sm font-semibold ring-2 ring-screed transition-colors peer-checked:text-white peer-checked:ring-blue peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2">
                       {t[f]}
                     </span>
                   </label>
@@ -246,17 +274,17 @@ export function Estimator({
 
         {/* 4 — where and when */}
         <fieldset>
-          <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s4}</legend>
+          <legend className={legend}><Step n={4} />{t.s4}</legend>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-joint block text-xs" htmlFor="cityId">{t.city}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="cityId">{t.city}</label>
               <select id="cityId" className={`${field} mt-1.5`} value={contact.cityId}
                 onChange={(e) => setContact((c) => ({ ...c, cityId: e.target.value }))}>
                 {cities.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-joint block text-xs" htmlFor="timeline">{t.timeline}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="timeline">{t.timeline}</label>
               <select id="timeline" className={`${field} mt-1.5`} value={contact.timeline}
                 onChange={(e) => setContact((c) => ({ ...c, timeline: e.target.value }))}>
                 {t.timelines.map((x) => <option key={x} value={x}>{x}</option>)}
@@ -267,25 +295,25 @@ export function Estimator({
 
         {/* 5 — contact */}
         <fieldset>
-          <legend className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>{t.s5}</legend>
+          <legend className={legend}><Step n={5} />{t.s5}</legend>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-joint block text-xs" htmlFor="name">{t.name}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="name">{t.name}</label>
               <input ref={nameRef} id="name" required autoComplete="name" className={`${field} mt-1.5`} value={contact.name}
                 onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))} />
             </div>
             <div>
-              <label className="text-joint block text-xs" htmlFor="phone">{t.phone}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="phone">{t.phone}</label>
               <input id="phone" required type="tel" autoComplete="tel" className={`${field} mt-1.5`} value={contact.phone}
                 onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))} />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-joint block text-xs" htmlFor="email">{t.email}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="email">{t.email}</label>
               <input id="email" type="email" autoComplete="email" className={`${field} mt-1.5`} value={contact.email}
                 onChange={(e) => setContact((c) => ({ ...c, email: e.target.value }))} />
             </div>
             <div className="sm:col-span-2">
-              <label className="text-joint block text-xs" htmlFor="notes">{t.notes}</label>
+              <label className="text-joint block text-sm font-semibold" htmlFor="notes">{t.notes}</label>
               <textarea id="notes" rows={4} className={`${field} mt-1.5 resize-y`} value={contact.notes}
                 onChange={(e) => setContact((c) => ({ ...c, notes: e.target.value }))} />
             </div>
@@ -302,36 +330,35 @@ export function Estimator({
 
       {/* live estimate */}
       <aside className="lg:sticky lg:top-28 lg:h-fit">
-        <div className="bg-shadow text-slab">
-          <div className="border-slab/15 hidden border-b px-6 py-5 lg:block">
-            <p className="text-slab/50 text-xs font-semibold">{t.estTitle}</p>
+        <div className="bg-navy overflow-hidden rounded-[var(--radius-panel)] text-white shadow-[0_30px_60px_-30px_rgba(10,31,82,0.8)]">
+          <div className="field-blue hidden px-6 py-6 lg:block">
+            <p className="text-sm font-bold text-white/75">{t.estTitle}</p>
             {result ? (
               <p
-                className="mt-2 text-[1.95rem] leading-tight font-bold whitespace-nowrap"
-                style={{ fontStretch: '112%', letterSpacing: '-0.02em' }}
+                className="text-mark type-heading mt-2 text-[2rem] whitespace-nowrap"
               >
                 {formatUsd(result.low, locale)}
-                <span className="text-slab/40"> – </span>
+                <span className="text-white/50"> – </span>
                 {formatUsd(result.high, locale)}
               </p>
             ) : (
-              <p className="text-slab/60 mt-2 text-sm">{t.estNone}</p>
+              <p className="mt-2 text-sm text-white/75">{t.estNone}</p>
             )}
-            {result?.atMinimum && <p className="text-mark mt-3 text-xs leading-snug">{t.estMin}</p>}
+            {result?.atMinimum && <p className="mt-3 text-xs leading-snug text-white/85">{t.estMin}</p>}
           </div>
 
           <div className="px-6 py-5">
-            <p className="text-slab/55 text-xs leading-relaxed">{t.disclaimer}</p>
+            <p className="text-xs leading-relaxed text-white/60">{t.disclaimer}</p>
 
             <button type="submit" disabled={status === 'sending'}
-              className="bg-mark text-ink hover:bg-slab mt-5 w-full px-6 py-4 text-sm font-semibold tracking-tight transition-colors disabled:opacity-60">
+              className="btn btn-gold mt-5 w-full text-base disabled:opacity-60">
               {status === 'sending' ? t.sending : t.submit}
             </button>
 
             <p aria-live="polite" className="mt-4 text-sm">
               {status === 'sent' && <span className="text-mark">{t.sent}</span>}
               {(status === 'error' || status === 'unconfigured') && (
-                <span className="text-slab/80">
+                <span className="text-white/85">
                   {message || (status === 'unconfigured' ? t.unconfiguredMsg : t.errorMsg)}{' '}
                   {!message && <a href={phoneHref} data-loc="estimator-fallback" className="text-mark font-semibold">{phoneDisplay}</a>}
                 </span>
@@ -348,15 +375,16 @@ export function Estimator({
         same form.
       */}
       <div
-        className="border-slab/15 bg-shadow text-slab fixed inset-x-0 bottom-0 z-50 border-t lg:hidden"
+        className={`bg-navy fixed inset-x-0 bottom-0 z-50 rounded-t-3xl text-white shadow-[0_-12px_30px_-12px_rgba(10,31,82,0.6)] transition-transform duration-300 lg:hidden ${inView ? '' : 'translate-y-full'}`}
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        inert={!inView}
       >
-        <div className="flex items-center gap-3 px-4 py-3">
+        <div className="flex items-center gap-3 px-5 py-3.5">
           <div className="min-w-0 flex-1">
             {status === 'sent' ? (
               <p className="text-mark text-sm leading-snug font-semibold">{t.sent}</p>
             ) : status === 'error' || status === 'unconfigured' ? (
-              <p className="text-slab/85 text-xs leading-snug">
+              <p className="text-xs leading-snug text-white/85">
                 {message || (status === 'unconfigured' ? t.unconfiguredMsg : t.errorMsg)}{' '}
                 {!message && (
                   <a href={phoneHref} data-loc="estimator-bar" className="text-mark font-semibold">
@@ -366,15 +394,15 @@ export function Estimator({
               </p>
             ) : (
               <>
-                <p className="text-slab/50 text-[0.65rem] font-semibold">{t.estTitle}</p>
+                <p className="text-[0.7rem] font-semibold text-white/60">{t.estTitle}</p>
                 {result ? (
-                  <p className="truncate text-lg leading-tight font-bold" style={{ fontStretch: '112%' }}>
+                  <p className="text-mark type-heading truncate text-xl">
                     {formatUsd(result.low, locale)}
-                    <span className="text-slab/40"> – </span>
+                    <span className="text-white/50"> – </span>
                     {formatUsd(result.high, locale)}
                   </p>
                 ) : (
-                  <p className="text-slab/60 text-xs leading-snug">{t.estNoneShort}</p>
+                  <p className="text-xs leading-snug text-white/70">{t.estNoneShort}</p>
                 )}
               </>
             )}
@@ -384,7 +412,7 @@ export function Estimator({
             <button
               type="submit"
               disabled={status === 'sending'}
-              className="bg-mark text-ink shrink-0 px-5 py-3 text-xs font-semibold tracking-tight disabled:opacity-60"
+              className="btn btn-gold shrink-0 px-5 py-3 text-sm disabled:opacity-60"
             >
               {status === 'sending' ? t.sending : t.submit}
             </button>

@@ -5,9 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Presupuesto de Concreto Gratis | Condado de Utah',
+  title: 'Presupuesto Gratis | Concreto, Jardín, Remodelación',
   description:
-    'Describa su entrada, patio, escalones u obra plana y vea un rango de precio al instante, con precios reales de Utah. Presupuestos gratis por escrito.',
+    'Calcule al instante un trabajo de concreto con precios reales de Utah, o describa su proyecto de jardinería, remodelación, electricidad o plomería.',
   alternates: alternates('es', '/free-estimate/', '/es/presupuesto/'),
 }
 

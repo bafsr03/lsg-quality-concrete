@@ -5,8 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Sobre LSG Quality Concrete',
-  description: 'Una cuadrilla de concreto con base en Eagle Mountain, Utah. Las mismas personas cimbran, vierten y terminan cada obra. Quince años en el valle.',
+  title: 'Nosotros | Contratista General en Eagle Mountain',
+  description:
+    'Una cuadrilla local con base en Eagle Mountain, Utah: concreto, jardinería y remodelación, con socios con licencia para electricidad y plomería.',
   alternates: alternates('es', '/about/', '/es/nosotros/'),
 }
 

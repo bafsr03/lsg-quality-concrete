@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { services } from '../../content/services'
 import { cities } from '../../content/cities'
+import { divisions } from '../../content/divisions'
 
 /** Shape Next expects from `redirects()`. Declared locally rather than imported
  *  from a deep internal path, which is not a stable public export. */
@@ -10,14 +11,14 @@ type Redirect = { source: string; destination: string; permanent: boolean }
 type MediaEntry = { source: { original: string } }
 
 /**
- * The old site was six pages. Five keep their URL — preserving a URL preserves
+ * The old site was six pages. All six keep their URL — preserving a URL preserves
  * its equity, so we redirect only where structure genuinely changed.
  */
 const STRUCTURAL: Redirect[] = [
-  // The one real restructure: a single "Concrete" page becomes a services hub.
+  // The old single "Concrete" page now IS a page again — the concrete trade
+  // hub at /concrete/ — so it needs no redirect.
   // Destinations keep their trailing slash to match trailingSlash: true —
   // without it every redirect costs a second hop to add the slash back.
-  { source: '/concrete', destination: '/services/', permanent: true },
   // Empty custom-post-type archive that Yoast was still indexing.
   { source: '/project', destination: '/gallery/', permanent: true },
 ]
@@ -33,17 +34,47 @@ const STRUCTURAL: Redirect[] = [
  */
 function reservedPaths(): Set<string> {
   const reserved = new Set([
-    '', 'services', 'gallery', 'reviews', 'about', 'contact', 'free-estimate', 'es',
+    '', 'services', 'service-areas', 'gallery', 'reviews', 'about', 'contact', 'free-estimate', 'es',
   ])
+  for (const d of divisions) {
+    reserved.add(d.slug.en)
+    reserved.add(d.slug.es)
+  }
+  for (const r of previewRedirects()) reserved.add(r.source.slice(1))
+  return reserved
+}
+
+/**
+ * Before the multi-trade restructure, services and cities lived at flat
+ * top-level slugs (/concrete-driveways/, /concrete-contractor-lehi/). Those
+ * preview links were shared with the owner and the team, so they keep working.
+ */
+const FLAT_SERVICE_SLUGS: Record<string, { en: string; es: string }> = {
+  driveways: { en: 'concrete-driveways', es: 'entradas-de-concreto' },
+  patios: { en: 'concrete-patios', es: 'patios-de-concreto' },
+  walkways: { en: 'concrete-walkways', es: 'andadores-de-concreto' },
+  steps: { en: 'concrete-steps', es: 'escalones-de-concreto' },
+  floors: { en: 'concrete-floors', es: 'pisos-de-concreto' },
+  repair: { en: 'concrete-repair', es: 'reparacion-de-concreto' },
+  basement: { en: 'basement-concrete', es: 'concreto-para-sotanos' },
+  'rv-pads': { en: 'rv-pads', es: 'plataformas-para-casas-rodantes' },
+}
+
+function previewRedirects(): Redirect[] {
+  const concrete = divisions.find((d) => d.id === 'concrete')!
+  const out: Redirect[] = []
   for (const s of services) {
-    reserved.add(s.slug.en)
-    reserved.add(s.slug.es)
+    const flat = FLAT_SERVICE_SLUGS[s.id]
+    if (!flat || s.status !== 'published') continue
+    out.push({ source: `/${flat.en}`, destination: `/${concrete.slug.en}/${s.slug.en}/`, permanent: true })
+    out.push({ source: `/es/${flat.es}`, destination: `/es/${concrete.slug.es}/${s.slug.es}/`, permanent: true })
   }
   for (const c of cities) {
-    reserved.add(c.slug.en)
-    reserved.add(c.slug.es)
+    if (c.status !== 'published') continue
+    out.push({ source: `/concrete-contractor-${c.id}`, destination: `/${concrete.slug.en}/${c.slug.en}/`, permanent: true })
+    out.push({ source: `/es/contratista-de-concreto-${c.id}`, destination: `/es/${concrete.slug.es}/${c.slug.es}/`, permanent: true })
   }
-  return reserved
+  return out
 }
 
 export const slugifyAttachment = (filename: string) =>
@@ -80,5 +111,5 @@ function attachmentRedirects(): Redirect[] {
 }
 
 export function legacyRedirects(): Redirect[] {
-  return [...STRUCTURAL, ...attachmentRedirects()]
+  return [...STRUCTURAL, ...previewRedirects(), ...attachmentRedirects()]
 }

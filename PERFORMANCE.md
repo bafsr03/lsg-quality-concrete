@@ -46,3 +46,36 @@ hydration for the purely static routes — not trimming our own code, because
 there is no client code to trim. That trade is worth revisiting only once the
 interactive surfaces (quote form, gallery lightbox, scroll choreography) are
 built and their real cost is known.
+
+## After the multi-trade restructure (2026-10-12)
+
+Two corrections to the section above, then the new numbers.
+
+- There are now **three** client components, not zero:
+  - `components/quote/estimator.tsx` (concrete estimator)
+  - `components/quote/project-request.tsx` (quote form for the other trades)
+  - `components/motion/pour-sequence.tsx` (GSAP scroll sequence)
+
+  The pour sequence now renders only on `/concrete/`, so the home page no longer loads GSAP.
+- **The services mega-menu is CSS-only** (`:hover` / `:focus-within`) and adds no JS.
+
+Measured with `scripts/measure-payload.sh` against `pnpm start`, gzip:
+
+| Page | HTML | CSS | JS | Total |
+|---|---|---|---|---|
+| `/` | 32.4 KB | 13.4 KB | 181.9 KB | 222 KB |
+| `/concrete/` (pour sequence) | 27.4 KB | 13.4 KB | 183.6 KB | 219 KB |
+| `/concrete/driveways/` | 23.7 KB | 13.4 KB | 181.9 KB | 214 KB |
+| `/service-areas/lehi/` | 21.5 KB | 13.4 KB | 181.9 KB | 212 KB |
+| `/free-estimate/` | 18.6 KB | 13.4 KB | 188.2 KB | 215 KB |
+
+- **JS stays on budget:** about 4 KB of our own code on top of the floor, 10 KB on the estimate page.
+- **HTML is over the 20 KB line on most pages, and that is a deliberate trade.** Every page now carries:
+  - the full internal-link spine: a mega-menu and a footer linking every trade, service and city hub;
+  - Next's RSC payload, which repeats that markup a second time.
+
+  Those links are the main ranking lever for 60 new URLs. Repeated link styles are already single `@utility` classes (`menu-link`, `foot-link`, `link-card`), and the organization's offer catalogue in JSON-LD is emitted on the home page only.
+- **Remaining levers if it matters:**
+  - drop hydration for the purely static routes (removes the RSC duplicate);
+  - shrink `next/image` srcsets on the homepage collage.
+- **CSS is 1.4 KB over its 12 KB line**, mostly from the new page templates.

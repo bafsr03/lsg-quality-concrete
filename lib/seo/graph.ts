@@ -1,4 +1,8 @@
 import { BUSINESS, SITE_URL, type Locale } from '@/lib/site'
+import { publishedDivisions } from '@/content/divisions'
+import { servicesIn } from '@/content/services'
+import { publishedCities } from '@/content/cities'
+import { divisionPath, servicePath } from '@/lib/content/resolve'
 
 /**
  * Stable @id values. Every page references the business by @id and never
@@ -21,6 +25,8 @@ export function organizationNode() {
     name: BUSINESS.name,
     legalName: BUSINESS.legalName,
     url: SITE_URL,
+    logo: `${SITE_URL}/brand/logo-navy.png`,
+    image: `${SITE_URL}/opengraph-image.png`,
     telephone: BUSINESS.phone.e164,
     email: BUSINESS.email,
     priceRange: '$$',
@@ -33,6 +39,8 @@ export function organizationNode() {
       addressCountry: BUSINESS.country,
     },
     geo: { '@type': 'GeoCoordinates', ...BUSINESS.geo },
+    areaServed: publishedCities.map((c) => ({ '@type': 'City', name: `${c.name}, UT` })),
+    knowsLanguage: ['en', 'es'],
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -44,6 +52,31 @@ export function organizationNode() {
     ...(BUSINESS.aggregateRating
       ? { aggregateRating: { '@type': 'AggregateRating', ...BUSINESS.aggregateRating } }
       : {}),
+  }
+}
+
+/**
+ * The trades as a catalogue, one OfferCatalog per trade — what ties the
+ * business to landscaping and remodeling, not just concrete, in the knowledge
+ * graph. Emitted on the home page only, as an addition to the organization by
+ * @id: it is ~5 KB, and every other page already links each trade.
+ */
+export function offerCatalogNode(locale: Locale) {
+  return {
+    '@id': ID.org,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: locale === 'es' ? 'Servicios' : 'Services',
+      itemListElement: publishedDivisions.map((d) => ({
+        '@type': 'OfferCatalog',
+        name: d.name[locale],
+        url: new URL(divisionPath(d, locale), SITE_URL).toString(),
+        itemListElement: servicesIn(d.id).map((s) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: s.name[locale], url: new URL(servicePath(s, locale), SITE_URL).toString() },
+        })),
+      })),
+    },
   }
 }
 

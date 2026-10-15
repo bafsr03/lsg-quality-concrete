@@ -16,16 +16,26 @@ const base = (process.argv[2] ?? 'http://localhost:4311').replace(/\/$/, '')
 
 /** Pages that must answer 200 — any redirect here means a route got shadowed. */
 const MUST_BE_200 = [
-  '/', '/services/', '/gallery/', '/reviews/', '/about/', '/contact/', '/free-estimate/',
-  '/concrete-driveways/', '/concrete-contractor-eagle-mountain/',
-  '/es/', '/es/servicios/', '/es/galeria/', '/es/resenas/', '/es/nosotros/',
-  '/es/contacto/', '/es/presupuesto/', '/es/entradas-de-concreto/',
+  '/', '/services/', '/service-areas/', '/gallery/', '/reviews/', '/about/', '/contact/', '/free-estimate/',
+  // One of each page type: trade hub, service, trade x city, city hub.
+  '/concrete/', '/landscaping/', '/remodeling/', '/electrical/', '/plumbing/',
+  '/concrete/driveways/', '/remodeling/basement-finishing/', '/concrete/eagle-mountain/',
+  '/service-areas/lehi/',
+  '/es/', '/es/servicios/', '/es/areas-de-servicio/', '/es/galeria/', '/es/resenas/', '/es/nosotros/',
+  '/es/contacto/', '/es/presupuesto/', '/es/concreto/', '/es/concreto/entradas/',
+  '/es/concreto/eagle-mountain/', '/es/areas-de-servicio/lehi/', '/es/jardineria/',
   '/sitemap.xml', '/robots.txt',
 ]
 
 /** Legacy WordPress URLs, and where each must land in exactly one hop. */
 const MUST_REDIRECT = [
-  ['/concrete/', '/services/'],
+  // Flat preview URLs from before the multi-trade restructure.
+  ['/concrete-driveways/', '/concrete/driveways/'],
+  ['/basement-concrete/', '/concrete/basement-slabs/'],
+  ['/concrete-contractor-lehi/', '/concrete/lehi/'],
+  ['/es/entradas-de-concreto/', '/es/concreto/entradas/'],
+  ['/es/contratista-de-concreto-lehi/', '/es/concreto/lehi/'],
+  // Legacy WordPress.
   ['/project/', '/gallery/'],
   ['/concrete-new-gallery-2/', '/gallery/'],
   ['/l-s-g-gallery-29/', '/gallery/'],

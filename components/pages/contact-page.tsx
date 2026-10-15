@@ -1,10 +1,9 @@
-import Link from 'next/link'
 import type { Locale } from '@/lib/site'
 import { BUSINESS } from '@/lib/site'
-import { path } from '@/lib/i18n/paths'
 import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
-import { JointGrid } from '@/components/site/joint-grid'
+import { PageHero } from '@/components/site/page-hero'
+import { HeroActions } from '@/components/site/hero-actions'
 
 const copy = {
   en: {
@@ -44,27 +43,18 @@ export function ContactPage({ locale }: { locale: Locale }) {
     <>
       <Header locale={locale} />
       <main>
-        <section className="border-joint/40 text-joint/55 relative border-b">
-          <JointGrid />
-          <div className="relative mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8 sm:py-24">
-            <h1
-              className="text-ink text-display max-w-[12ch] leading-[0.9] font-bold"
-              style={{ fontStretch: '120%', letterSpacing: 'var(--tracking-display)' }}
-            >
-              {t.title}
-            </h1>
-            <p className="text-ink/80 text-lede mt-6 max-w-[42ch] leading-relaxed">{t.lede}</p>
-          </div>
-        </section>
+        <PageHero size="display" title={t.title} lede={t.lede} mascotBubble={locale === 'es' ? '¡Llámenos!' : 'Give us a call!'}>
+          <HeroActions locale={locale} loc="contact-hero" cta={t.cta} />
+        </PageHero>
 
-        <section className="mx-auto w-full max-w-[110rem] px-5 py-14 sm:px-8">
-          <dl className="border-joint/40 grid border-t sm:grid-cols-2">
-            {rows.map((r) => (
-              <div key={r.label} className="border-joint/40 border-b py-6 sm:pr-8">
-                <dt className="text-joint text-xs">{r.label}</dt>
-                <dd className="text-ink mt-1 text-lg font-semibold" style={{ fontStretch: '110%' }}>
+        <section className="mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8 sm:py-20">
+          <dl className="grid grid-cols-[minmax(0,1fr)] gap-4 sm:grid-cols-2">
+            {rows.map((r, i) => (
+              <div key={r.label} className={`rounded-[var(--radius-panel)] p-7 shadow-[0_18px_40px_-28px_rgba(10,31,82,0.5)] sm:p-8 ${i === 0 ? 'bg-mark' : 'bg-white ring-1 ring-[color-mix(in_oklab,var(--color-blue)_10%,transparent)]'}`}>
+                <dt className={`text-sm font-bold ${i === 0 ? 'text-navy/70' : 'text-blue'}`}>{r.label}</dt>
+                <dd className="text-navy type-heading mt-2 text-lg [overflow-wrap:anywhere] sm:text-2xl">
                   {r.href ? (
-                    <a href={r.href} {...(r.loc ? { 'data-loc': r.loc } : {})} className="hover:text-mark inline-block py-1.5 transition-colors">
+                    <a href={r.href} {...(r.loc ? { 'data-loc': r.loc } : {})} className="hover:text-blue inline-block py-1.5 transition-colors">
                       {r.value}
                     </a>
                   ) : (
@@ -75,16 +65,8 @@ export function ContactPage({ locale }: { locale: Locale }) {
             ))}
           </dl>
 
-          <p className="text-joint mt-8 max-w-[56ch] text-sm leading-relaxed">{t.note}</p>
+          <p className="text-joint mt-8 max-w-[56ch] leading-relaxed">{t.note}</p>
 
-          <div className="mt-10">
-            <Link
-              href={path('estimate', locale)}
-              className="bg-mark text-ink hover:bg-ink hover:text-slab inline-flex items-center px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
-            >
-              {t.cta}
-            </Link>
-          </div>
         </section>
       </main>
       <Footer locale={locale} />

@@ -5,9 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Free Concrete Estimate | Utah County & Salt Lake',
+  title: 'Free Estimate | Concrete, Landscaping, Remodeling',
   description:
-    'Describe your driveway, patio, steps or flatwork and see an indicative price range straight away, built from real Utah rates. Free written estimates.',
+    'Price a concrete job instantly from real Utah rates, or describe a landscaping, remodeling, electrical or plumbing project. Free written estimates.',
   alternates: alternates('en', '/free-estimate/', '/es/presupuesto/'),
 }
 

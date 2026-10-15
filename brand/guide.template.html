@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de marca LSG</title>
+<meta name="description" content="LSG Contractors · General Services — resumen del cambio de marca y guía de una página: logo, mascota, color, tipografía y colores por servicio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --navy: #0a1f52; --blue: #1652d9; --blue-deep: #0e3aa8; --sky: #5bb8ff;
+  --gold: #ffc21a; --gold-deep: #f0a800; --spark: #e8392b;
+  --slab: #f6f8fc; --screed: #e7eefb; --joint: #5d6a88; --white: #ffffff;
+  --line: color-mix(in oklab, var(--joint) 22%, transparent);
+  --concrete: #475569; --concrete-t: #e2e8f0;
+  --landscaping: #15803d; --landscaping-t: #dcfce7;
+  --remodeling: #8a4b2a; --remodeling-t: #f3e6dc;
+  --electrical: #b45309; --electrical-t: #fef3c7;
+  --plumbing: #0e7490; --plumbing-t: #cffafe;
+  --radius: 18px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--slab); color: var(--navy); font: 400 16px/1.6 "Archivo", system-ui, sans-serif; }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+section { padding: 56px 0 8px; }
+h1, h2, h3 { margin: 0; line-height: 1.05; }
+.display { font-weight: 800; font-style: italic; font-stretch: 125%; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.8rem); font-weight: 800; font-style: italic; font-stretch: 125%; letter-spacing: -0.02em; }
+h3 { font-size: 1.05rem; font-weight: 800; }
+p { margin: 0; }
+.kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
+.kicker::before { content: ""; width: 22px; height: 3px; border-radius: 3px; background: var(--gold); }
+.lede { color: var(--joint); max-width: 62ch; margin-top: 12px; font-size: 1.05rem; }
+.grid { display: grid; gap: 14px; }
+.card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.muted { color: var(--joint); font-size: 0.92rem; }
+.small { font-size: 0.82rem; }
+code { font: 600 0.85em ui-monospace, "SF Mono", Menlo, monospace; background: var(--screed); padding: 1px 6px; border-radius: 6px; }
+.tape { height: 14px; background: repeating-linear-gradient(-45deg, var(--gold) 0 14px, var(--navy) 14px 28px); }
+
+/* Cover */
+.cover { background: radial-gradient(120% 120% at 85% 0%, var(--blue) 0%, var(--navy) 62%); color: var(--white); padding: 56px 0 0; overflow: hidden; }
+.cover-grid { display: grid; gap: 28px; align-items: end; grid-template-columns: minmax(0, 1fr); }
+.cover-lockup { display: grid; justify-items: start; gap: 14px; }
+.cover-lockup .mono { width: min(250px, 60vw); }
+.cover-lockup .word { width: min(330px, 78vw); }
+.cover h1 { font-size: clamp(2.6rem, 1.4rem + 5vw, 5rem); margin-top: 26px; }
+.cover .sub { color: rgb(255 255 255 / 0.78); margin-top: 12px; max-width: 54ch; }
+.cover .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 36px; }
+.pill { border: 1px solid rgb(255 255 255 / 0.25); border-radius: 999px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; }
+.cover-mascot { justify-self: center; width: min(250px, 62vw); filter: drop-shadow(0 22px 26px rgb(2 10 35 / 0.45)); }
+@media (min-width: 820px) { .cover-grid { grid-template-columns: 1.4fr 0.6fr; } .cover-mascot { width: 280px; } }
+
+/* Before / after */
+.ba { grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); margin-top: 26px; }
+.ba .card { display: grid; gap: 10px; align-content: start; }
+.ba .row { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 10px; align-items: baseline; font-size: 0.92rem; }
+.ba .tag { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--joint); }
+.ba .tag.new { color: var(--landscaping); }
+.ba s { color: var(--joint); }
+.thumbs { display: flex; gap: 10px; align-items: center; min-height: 92px; }
+.thumbs .old { width: 96px; opacity: 0.85; border-radius: 10px; background: var(--white); border: 1px dashed var(--line); padding: 6px; }
+.thumbs .arrow { color: var(--gold-deep); font-weight: 800; font-size: 1.3rem; }
+
+/* Logo */
+.logos { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); margin-top: 26px; }
+.logo-tile { border-radius: var(--radius); border: 1px solid var(--line); display: grid; grid-template-rows: 1fr auto; overflow: hidden; }
+.logo-tile .stage { display: grid; place-items: center; padding: 34px 26px; min-height: 250px; }
+.logo-tile .cap { padding: 12px 16px; background: var(--white); border-top: 1px solid var(--line); font-size: 0.86rem; }
+.logo-tile .cap b { display: block; font-size: 0.95rem; }
+.on-white { background: var(--white); }
+.on-navy { background: var(--navy); }
+.on-blue { background: var(--blue); }
+.on-slab { background: var(--slab); }
+.logo-tile.wide { grid-column: 1 / -1; }
+.clear { position: relative; padding: 22px; outline: 2px dashed color-mix(in oklab, var(--spark) 60%, transparent); outline-offset: 0; }
+.clear::before { content: "x"; position: absolute; top: 2px; left: 6px; font: 700 12px/1 ui-monospace, monospace; color: var(--spark); }
+.rules { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); margin-top: 14px; }
+.rules ul { margin: 8px 0 0; padding-left: 18px; font-size: 0.92rem; }
+.rules li + li { margin-top: 4px; }
+.donts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin-top: 14px; }
+.dont { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.dont .stage { height: 140px; display: grid; place-items: center; padding: 18px; position: relative; }
+.dont .stage::after { content: "✕"; position: absolute; top: 8px; right: 10px; width: 24px; height: 24px; border-radius: 50%; background: var(--spark); color: #fff; font: 800 13px/24px system-ui; text-align: center; }
+.dont p { padding: 10px 14px; font-size: 0.85rem; border-top: 1px solid var(--line); }
+.masked { width: 190px; aspect-ratio: 900 / 680; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+
+/* Colour */
+.swatches { grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); margin-top: 26px; }
+.sw { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+.sw .chip { height: 110px; padding: 12px; display: flex; align-items: flex-end; font-weight: 800; font-size: 0.8rem; }
+.sw .info { padding: 12px 14px; font-size: 0.85rem; }
+.sw .info b { display: block; font-size: 0.98rem; }
+.sw .hex { font: 600 0.8rem ui-monospace, Menlo, monospace; color: var(--joint); }
+.ratio { margin-top: 18px; display: flex; height: 18px; border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+.ratio span { display: block; }
+
+/* Type */
+.type { grid-template-columns: minmax(0, 1fr); margin-top: 26px; }
+@media (min-width: 860px) { .type { grid-template-columns: 1.4fr 1fr; } }
+.specimen { font-size: clamp(2.8rem, 1.5rem + 5vw, 5.4rem); line-height: 0.92; }
+.scale > div { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+.scale .lbl { font: 600 0.75rem ui-monospace, Menlo, monospace; color: var(--joint); }
+.mont { font-family: "Montserrat", sans-serif; }
+.glyphs { font-size: 1.05rem; letter-spacing: 0.06em; word-break: break-all; }
+
+/* Mascot */
+.mascot-grid { grid-template-columns: minmax(0, 1fr); margin-top: 26px; align-items: stretch; }
+@media (min-width: 860px) { .mascot-grid { grid-template-columns: 0.8fr 1.2fr; } }
+.mascot-stage { background: radial-gradient(90% 80% at 50% 10%, var(--blue), var(--navy)); border-radius: var(--radius); display: grid; place-items: end center; padding: 54px 20px 22px; position: relative; overflow: hidden; }
+.mascot-stage img { width: min(250px, 70%); filter: drop-shadow(0 18px 22px rgb(2 10 35 / 0.45)); }
+.bubble { position: absolute; top: 22px; right: 18px; background: #fff; color: var(--navy); border-radius: 14px; padding: 8px 14px; font-weight: 800; font-style: italic; font-stretch: 115%; box-shadow: 0 12px 30px -10px rgb(5 15 50 / 0.5); }
+.bubble::after { content: ""; position: absolute; left: 18px; bottom: -6px; width: 12px; height: 12px; background: #fff; transform: rotate(45deg); border-radius: 2px; }
+.uses { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.bust { width: 78px; height: 78px; border-radius: 50%; background: var(--gold); border: 4px solid var(--blue); display: grid; place-items: center; }
+.bust img { width: 88%; }
+.say { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.say span { background: var(--screed); border-radius: 999px; padding: 5px 12px; font-weight: 700; font-style: italic; font-size: 0.85rem; }
+
+/* Trades */
+.trade-sw { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); margin-top: 26px; }
+.tsw { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+.tsw .duo { display: grid; grid-template-columns: 1.4fr 1fr; height: 96px; }
+.tsw .duo div { display: flex; align-items: flex-end; padding: 10px; font: 700 0.72rem ui-monospace, Menlo, monospace; }
+.tsw .info { padding: 12px 14px; display: grid; gap: 4px; }
+.tsw .info b { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+.tsw svg { width: 22px; height: 22px; flex: none; }
+.aa { display: inline-block; font: 700 0.7rem ui-monospace, Menlo, monospace; color: var(--landscaping); background: var(--landscaping-t); border-radius: 6px; padding: 1px 6px; }
+.mock-heroes { grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); margin-top: 18px; }
+.mh { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--white); }
+.mh .top { background: radial-gradient(120% 140% at 100% 0%, color-mix(in oklab, var(--c) 70%, var(--navy)) 0%, var(--navy) 70%); color: #fff; padding: 22px 20px 20px; position: relative; }
+.mh .top::after { content: ""; position: absolute; inset: auto 0 0 0; height: 6px; background: var(--c); }
+.mh .crumbs { font-size: 0.72rem; opacity: 0.75; }
+.mh .tchip { display: inline-flex; align-items: center; gap: 6px; background: var(--t); color: var(--c); border-radius: 999px; padding: 4px 10px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 10px; }
+.mh .tchip svg { width: 14px; height: 14px; }
+.mh h3 { font-size: 1.55rem; font-weight: 800; font-style: italic; font-stretch: 125%; letter-spacing: -0.02em; margin-top: 10px; }
+.mh .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.btn { border-radius: 999px; padding: 8px 14px; font-weight: 800; font-size: 0.8rem; }
+.btn.gold { background: var(--gold); color: var(--navy); }
+.btn.ghost { border: 1px solid rgb(255 255 255 / 0.4); color: #fff; }
+.mh .body { padding: 14px 16px 16px; display: grid; gap: 10px; }
+.svc { display: grid; grid-template-columns: 6px minmax(0, 1fr) auto; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 10px 0; font-weight: 700; font-size: 0.9rem; overflow: hidden; }
+.svc::before { content: ""; align-self: stretch; background: var(--c); border-radius: 0 4px 4px 0; }
+.svc .go { color: var(--c); font-weight: 800; }
+.partner { font-size: 0.78rem; background: var(--t); color: color-mix(in oklab, var(--c) 80%, black); border-radius: 10px; padding: 8px 10px; font-weight: 600; }
+.menu { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 16px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.menu h4 { margin: 0 0 6px; display: flex; gap: 8px; align-items: center; font-size: 0.95rem; }
+.menu h4 i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.menu a { display: block; color: var(--joint); text-decoration: none; font-size: 0.86rem; padding: 2px 0; }
+.on-dark-chips { margin-top: 14px; background: var(--navy); border-radius: var(--radius); padding: 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.on-dark-chips .lab { color: rgb(255 255 255 / 0.7); font-size: 0.82rem; margin-right: 6px; }
+.on-dark-chips span.c { background: var(--t); color: var(--c); border-radius: 999px; padding: 6px 12px; font-size: 0.8rem; font-weight: 800; }
+
+/* Applications */
+.apps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); margin-top: 26px; }
+.favs { display: flex; align-items: end; gap: 18px; }
+.favs figure { margin: 0; text-align: center; font-size: 0.75rem; color: var(--joint); }
+.favs img { margin: 0 auto 6px; image-rendering: auto; }
+.tab { display: flex; align-items: center; gap: 8px; background: var(--screed); border-radius: 10px 10px 0 0; padding: 8px 12px; width: fit-content; font-size: 0.82rem; margin-top: 16px; }
+.tab img { width: 16px; height: 16px; }
+.sign { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 30px -18px rgb(10 31 82 / 0.5); }
+.sign .face { padding: 18px 18px 10px; display: grid; justify-items: center; gap: 4px; }
+.sign .face img { width: 62%; }
+.sign .phone { background: var(--gold); color: var(--navy); text-align: center; font-weight: 800; font-style: italic; font-stretch: 120%; font-size: 1.45rem; padding: 8px; }
+.sign .trades { background: var(--navy); color: #fff; text-align: center; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px; }
+.bizcard { aspect-ratio: 3.5 / 2; border-radius: 12px; background: var(--navy); color: #fff; padding: 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; box-shadow: 0 18px 30px -18px rgb(10 31 82 / 0.7); position: relative; overflow: hidden; }
+.bizcard::after { content: ""; position: absolute; inset: auto 0 0 0; height: 8px; background: repeating-linear-gradient(-45deg, var(--gold) 0 8px, var(--navy) 8px 16px); }
+.bizcard .m { width: 92px; }
+.bizcard .n { font-family: "Montserrat", sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.02em; }
+.bizcard .r { font-size: 0.78rem; color: rgb(255 255 255 / 0.7); }
+.bizcard .p { font-weight: 800; color: var(--gold); margin-top: 8px; }
+
+/* Next steps */
+.next { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin-top: 22px; }
+.next .card { border-top: 5px solid var(--gold); }
+.next .card.warn { border-top-color: var(--spark); }
+footer.end { margin-top: 56px; background: var(--navy); color: rgb(255 255 255 / 0.75); padding: 26px 0 30px; font-size: 0.85rem; }
+footer.end .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
+footer.end img { width: 150px; }
+
+@media print {
+  body { background: #fff; }
+  section { break-inside: avoid; padding-top: 28px; }
+  .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= PORTADA ======================= -->
+<header class="cover">
+  <div class="wrap cover-grid">
+    <div>
+      <div class="cover-lockup">
+        <img class="mono" src="{{monogram}}" alt="Monograma dorado de LSG con forma de casa">
+        <img class="word" src="{{wordmarkWhite}}" alt="LSG Contractors — General Services">
+      </div>
+      <h1 class="display">Guía de marca</h1>
+      <p class="sub">Qué cambió con la nueva marca y las pocas reglas que hacen que LSG se vea como una sola empresa en todas partes: en el sitio web, un letrero de jardín, la puerta de una camioneta o una tarjeta de presentación.</p>
+      <div class="meta">
+        <span class="pill">Versión 1 · Octubre 2026</span>
+        <span class="pill">Eagle Mountain, Utah</span>
+        <span class="pill">Preparada para Lenin Guzman</span>
+      </div>
+    </div>
+    <img class="cover-mascot" src="{{mascot}}" alt="La mascota de LSG sosteniendo un taladro">
+  </div>
+  <div class="tape"></div>
+</header>
+
+<main>
+
+<!-- ======================= RESUMEN ======================= -->
+<section class="wrap" id="resumen">
+  <span class="kicker">01 · El cambio de un vistazo</span>
+  <h2>De empresa de concreto a contratista general</h2>
+  <p class="lede">LSG creció más allá del concreto: ahora hace jardinería, remodelación, electricidad y plomería. La identidad anterior decía "Quality Concrete" por todas partes, así que se retiró. La empresa, la licencia y el número de teléfono no cambian.</p>
+
+  <div class="grid ba">
+    <div class="card">
+      <h3>Nombre</h3>
+      <div class="row"><span class="tag">Antes</span><s>LSG Quality Concrete</s></div>
+      <div class="row"><span class="tag new">Ahora</span><b>LSG Contractors · General Services</b></div>
+      <p class="muted small">La LLC sigue siendo "LSG Quality Concrete, LLC"; el nuevo nombre es su nombre comercial (DBA).</p>
+    </div>
+    <div class="card">
+      <h3>Logo</h3>
+      <div class="thumbs"><img class="old" src="{{oldLogo}}" alt="Logo anterior de L.S.G Quality Concrete"><span class="arrow">→</span><img src="{{logoNavy}}" alt="Nuevo logo de LSG Contractors" style="width:120px"></div>
+      <p class="muted small">Un logo de caricatura en baja resolución pasó a ser un monograma en forma de casa, de un solo color, que se imprime nítido a cualquier tamaño. Se conserva una versión dorada para fondos oscuros y el ícono de la app.</p>
+    </div>
+    <div class="card">
+      <h3>Mascota</h3>
+      <div class="thumbs"><img src="{{bust}}" alt="" style="width:76px;border-radius:50%;background:var(--gold)"><img src="{{monogram}}" alt="" style="width:86px"></div>
+      <p class="muted small">Un nuevo trabajador en 3-D, de cuerpo entero, con taladro y cinturón de herramientas, que lleva el monograma de LSG en la gorra, la camisa y la bolsa. Ahora combina con el logo en vez de cargar el nombre anterior.</p>
+    </div>
+    <div class="card">
+      <h3>Tipografía</h3>
+      <p style="font-weight:800;font-style:italic;font-stretch:125%;font-size:1.6rem;line-height:1">Archivo</p>
+      <p class="mont" style="font-weight:700;font-size:1.15rem;letter-spacing:0.02em">MONTSERRAT</p>
+      <p class="muted small">Archivo, ancha e inclinada, sigue siendo la voz del sitio web. Montserrat es la letra que lleva el logo; úsela en impresos y letreros.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LOGO ======================= -->
+<section class="wrap" id="logo">
+  <span class="kicker">02 · Logo</span>
+  <h2>Un solo logo, cuatro formas de usarlo</h2>
+  <p class="lede">Azul marino sobre fondo claro es el logo principal. Las demás versiones son el mismo dibujo con otro color u otra disposición; ninguna se vuelve a dibujar.</p>
+
+  <div class="grid logos">
+    <div class="logo-tile">
+      <div class="stage on-white"><img src="{{logoNavy}}" alt="Logo principal, azul marino" style="width:min(300px,80%)"></div>
+      <div class="cap"><b>Principal · azul marino sobre blanco</b>La opción por defecto: sitio web, documentos, facturas, camisas claras, letreros de jardín.</div>
+    </div>
+    <div class="logo-tile">
+      <div class="stage on-navy"><img src="{{logoWhite}}" alt="Logo invertido, blanco" style="width:min(300px,80%)"></div>
+      <div class="cap"><b>Invertido · blanco sobre azul marino</b>Fondos oscuros, camisas y gorras azul marino, puertas de camionetas, fotos con capa oscura.</div>
+    </div>
+    <div class="logo-tile">
+      <div class="stage on-navy" style="gap:14px"><img src="{{monogram}}" alt="Monograma dorado" style="width:min(220px,60%)"><img src="{{wordmarkWhite}}" alt="" style="width:min(260px,72%)"></div>
+      <div class="cap"><b>Versión dorada · solo sobre azul marino</b>Ícono de la app y del navegador, pie de página del sitio, imágenes para compartir, bordados. El dorado en 3-D necesita fondo oscuro; sobre blanco se ve opaco.</div>
+    </div>
+    <div class="logo-tile">
+      <div class="stage on-slab" style="gap:26px">
+        <img src="{{logoHorizontal}}" alt="Logo horizontal" style="width:min(300px,86%)">
+        <img src="{{markNavy}}" alt="Monograma solo" style="width:86px">
+      </div>
+      <div class="cap"><b>Horizontal y monograma solo</b>Horizontal para el encabezado del sitio y firmas de correo. El monograma solo es para espacios pequeños: fotos de perfil, sellos, el bolsillo de una camisa.</div>
+    </div>
+  </div>
+
+  <div class="grid rules">
+    <div class="card">
+      <h3>Espacio libre</h3>
+      <div style="display:grid;place-items:center;padding:16px 0 10px"><div class="clear"><img src="{{logoNavy}}" alt="" style="width:150px"></div></div>
+      <p class="muted small">Deje alrededor del logo un espacio vacío de al menos la altura de las letras de "LSG CONTRACTORS" (<b>x</b>) por cada lado.</p>
+    </div>
+    <div class="card">
+      <h3>Tamaño mínimo</h3>
+      <ul>
+        <li><b>Principal, vertical:</b> 1 pulg. / 120 px de ancho</li>
+        <li><b>Horizontal:</b> 1.6 pulg. / 160 px de ancho</li>
+        <li><b>Monograma solo:</b> 0.3 pulg. / 24 px</li>
+        <li><b>Ícono dorado:</b> funciona hasta 16 px (pestaña del navegador)</li>
+      </ul>
+      <p class="muted small" style="margin-top:8px">Por debajo de esos tamaños "GENERAL SERVICES" ya no se lee; use el monograma.</p>
+    </div>
+    <div class="card">
+      <h3>Colores permitidos</h3>
+      <ul>
+        <li>Azul marino <code>#0A1F52</code> sobre blanco o gris claro</li>
+        <li>Blanco sobre azul marino o sobre el azul de la marca</li>
+        <li>Versión dorada sobre azul marino</li>
+        <li>Negro, solo para impresión a una tinta</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid donts">
+    <div class="dont"><div class="stage"><img src="{{logoNavy}}" alt="" style="width:120px;transform:scaleX(1.45)"></div><p>No lo estire ni lo aplaste.</p></div>
+    <div class="dont"><div class="stage"><div class="masked" style="--m:url({{logoNavy}});background:var(--landscaping)"></div></div><p>No lo pinte con el color de un servicio. El logo va en azul marino, blanco o dorado.</p></div>
+    <div class="dont"><div class="stage" style="background:repeating-linear-gradient(35deg,#7d8ca8 0 10px,#c9d3e3 10px 22px,#e9a83a 22px 30px)"><img src="{{logoNavy}}" alt="" style="width:120px"></div><p>No lo ponga sobre una foto o un patrón cargado sin un fondo sólido detrás.</p></div>
+    <div class="dont"><div class="stage on-white"><img src="{{monogram}}" alt="" style="width:110px"></div><p>No use la versión dorada sobre blanco; use el logo azul marino.</p></div>
+  </div>
+</section>
+
+<!-- ======================= COLOR ======================= -->
+<section class="wrap" id="color">
+  <span class="kicker">03 · Color</span>
+  <h2>Azul marino, azul y un solo dorado</h2>
+  <p class="lede">La paleta sale directo de la mascota: gorra azul marino, fondo azul, camisa azul cielo, insignia dorada de seguridad. El dorado se reserva para lo único que queremos que la gente haga (llamar, pedir un presupuesto), así que nunca se usa de adorno.</p>
+
+  <div class="grid swatches">
+    <div class="sw"><div class="chip" style="background:var(--navy);color:#fff">Aa</div><div class="info"><b>Azul marino</b><span class="hex">#0A1F52</span><p class="muted small">Logo, textos, secciones oscuras, pie de página.</p></div></div>
+    <div class="sw"><div class="chip" style="background:var(--blue);color:#fff">Aa</div><div class="info"><b>Azul de fondo</b><span class="hex">#1652D9</span><p class="muted small">Fondos de portada, enlaces, íconos.</p></div></div>
+    <div class="sw"><div class="chip" style="background:var(--sky);color:var(--navy)">Aa</div><div class="info"><b>Azul cielo</b><span class="hex">#5BB8FF</span><p class="muted small">Detalles sobre fondos oscuros.</p></div></div>
+    <div class="sw"><div class="chip" style="background:var(--gold);color:var(--navy)">Aa</div><div class="info"><b>Dorado de seguridad</b><span class="hex">#FFC21A</span><p class="muted small">Solo botones y llamados a la acción. Texto azul marino encima, nunca blanco.</p></div></div>
+    <div class="sw"><div class="chip" style="background:var(--slab);color:var(--navy);border-bottom:1px solid var(--line)">Aa</div><div class="info"><b>Blanco losa</b><span class="hex">#F6F8FC</span><p class="muted small">Fondo de las páginas.</p></div></div>
+    <div class="sw"><div class="chip" style="background:var(--joint);color:#fff">Aa</div><div class="info"><b>Gris pizarra</b><span class="hex">#5D6A88</span><p class="muted small">Texto secundario, notas, bordes.</p></div></div>
+  </div>
+  <div class="ratio" aria-label="Proporción aproximada de cada color en una página">
+    <span style="flex:44;background:var(--slab)"></span><span style="flex:26;background:var(--navy)"></span><span style="flex:18;background:var(--blue)"></span><span style="flex:6;background:var(--sky)"></span><span style="flex:5;background:var(--gold)"></span><span style="flex:1;background:var(--spark)"></span>
+  </div>
+  <p class="muted small" style="margin-top:6px">Proporción aproximada en una página: casi todo claro y azul marino, algo de azul, un poco de azul cielo y dorado solo en los botones. Un toque rojo (<code>#E8392B</code>) aparece en dos o tres detalles como máximo.</p>
+</section>
+
+<!-- ======================= TIPOGRAFÍA ======================= -->
+<section class="wrap" id="tipografia">
+  <span class="kicker">04 · Tipografía</span>
+  <h2>Dos tipos de letra, cada uno con su tarea</h2>
+  <p class="lede">Archivo lleva el sitio web: ancha e inclinada en los títulos, de ancho normal para leer. Montserrat vive dentro del logo, así que úsela siempre que el nombre se escriba con letra: letreros, vehículos, tarjetas, camisas.</p>
+
+  <div class="grid type">
+    <div class="card">
+      <p class="muted small" style="font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Archivo · ExtraBold Italic · ancho 125% · títulos</p>
+      <p class="specimen display" style="margin-top:10px">Una cuadrilla para toda la obra.</p>
+      <div class="scale" style="margin-top:22px">
+        <div><span class="lbl">Portada</span><span class="display" style="font-size:2.2rem;line-height:1">Contáctenos</span></div>
+        <div><span class="lbl">Título</span><span style="font-weight:800;font-size:1.5rem;font-stretch:112%">Acabado de sótanos</span></div>
+        <div><span class="lbl">Entrada</span><span style="font-size:1.2rem">Concreto, jardinería y remodelación en el Condado de Utah.</span></div>
+        <div><span class="lbl">Texto</span><span>Presupuestos gratis por escrito. La misma cuadrilla que arma la obra la cuela y le da el acabado. We speak English.</span></div>
+        <div><span class="lbl">Etiqueta</span><span style="font-weight:800;font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase">Socios con licencia · Presupuesto gratis</span></div>
+      </div>
+    </div>
+    <div class="card" style="display:grid;gap:14px;align-content:start">
+      <p class="muted small" style="font-weight:700;letter-spacing:0.1em;text-transform:uppercase">Montserrat · logo, impresos y letreros</p>
+      <p class="mont" style="font-weight:700;font-size:2rem;line-height:1.05;letter-spacing:0.01em">LSG CONTRACTORS</p>
+      <p class="mont" style="font-weight:500;font-size:1.2rem;letter-spacing:0.06em">GENERAL SERVICES</p>
+      <p class="mont glyphs" style="font-weight:700">ABCDEFGHIJKLMN<br>ÑOPQRSTUVWXYZ<br>0123456789 &amp; · á é í ó ú</p>
+      <p class="muted small">Negrita para el nombre; Medium o Regular en mayúsculas con espaciado abierto para la segunda línea, igual que en el logo. Las dos letras son gratis en Google Fonts. El parecido con el logo es a simple vista; confírmelo con el diseñador que lo hizo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= MASCOTA ======================= -->
+<section class="wrap" id="mascota">
+  <span class="kicker">05 · Mascota</span>
+  <h2>La cara amable de la obra</h2>
+  <p class="lede">Hace que el sitio de un contratista se sienta como un vecino y no como un centro de llamadas. Acompaña al logo; nunca lo reemplaza.</p>
+
+  <div class="grid mascot-grid">
+    <div class="mascot-stage">
+      <span class="bubble">¡A construir!</span>
+      <img src="{{mascot}}" alt="Mascota, cuerpo entero">
+    </div>
+    <div class="grid" style="align-content:start">
+      <div class="grid uses">
+        <div class="card"><h3>Dónde aparece</h3><ul class="muted" style="margin:8px 0 0;padding-left:18px;font-size:0.9rem"><li>Portada de inicio, junto a las fotos</li><li>Encabezados de páginas sin foto</li><li>El bloque de "pida su presupuesto"</li><li>El botón redondo de ayuda (solo la cara)</li><li>Imagen para compartir en redes</li></ul></div>
+        <div class="card" style="display:grid;gap:10px;align-content:start"><h3>Versión redonda</h3><div class="bust"><img src="{{bust}}" alt="Cabeza y hombros de la mascota"></div><p class="muted small">Cabeza y hombros, para botones, fotos de perfil y calcomanías de menos de 1 pulgada.</p></div>
+      </div>
+      <div class="card">
+        <h3>Reglas</h3>
+        <ul style="margin:8px 0 0;padding-left:18px;font-size:0.92rem">
+          <li>Una vez por pantalla: nunca dos veces a la vista al mismo tiempo.</li>
+          <li>Muéstrelo completo, sobre azul de la marca, azul marino o un fondo claro liso; nunca cortado a la cintura.</li>
+          <li>No le cambie los colores, no le agregue objetos ni le cambie la insignia. La gorra, la camisa y la bolsa llevan el monograma a propósito.</li>
+          <li>Que sea más pequeño que el título principal y que no tape caras en las fotos de trabajos.</li>
+          <li>Los globos de diálogo van cortos, cálidos y de una línea, en español o en inglés.</li>
+        </ul>
+        <div class="say"><span>¡A construir!</span><span>¡Hola, vecino!</span><span>¡Llámenos!</span><span>¡Vamos a su obra!</span><span>Let's build!</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= COLORES POR SERVICIO ======================= -->
+<section class="wrap" id="servicios">
+  <span class="kicker">06 · Colores por servicio</span>
+  <h2>Un color para cada tipo de trabajo</h2>
+  <p class="lede">Cada servicio tiene un color que lo identifica, para que la gente sepa de un vistazo si está en concreto o en plomería. Cada uno tiene un tono <b>oscuro</b> (textos, íconos, franjas) y un tono <b>claro</b> (fondo de etiquetas). Sirven para identificar; nunca reemplazan el logo azul marino ni los botones dorados. Todas las combinaciones cumplen el contraste de accesibilidad (WCAG AA).</p>
+
+  <div class="grid trade-sw">
+    <div class="tsw"><div class="duo"><div style="background:var(--concrete);color:#fff">#475569</div><div style="background:var(--concrete-t);color:var(--concrete)">#E2E8F0</div></div><div class="info"><b style="color:var(--concrete)">{{icon-concrete}} Concreto · "Cemento"</b><span class="muted small">El gris pizarra del concreto curado.</span><span><span class="aa">AA 7.6:1</span></span></div></div>
+    <div class="tsw"><div class="duo"><div style="background:var(--landscaping);color:#fff">#15803D</div><div style="background:var(--landscaping-t);color:var(--landscaping)">#DCFCE7</div></div><div class="info"><b style="color:var(--landscaping)">{{icon-landscaping}} Jardinería · "Césped"</b><span class="muted small">El verde del pasto recién puesto.</span><span><span class="aa">AA 5.0:1</span></span></div></div>
+    <div class="tsw"><div class="duo"><div style="background:var(--remodeling);color:#fff">#8A4B2A</div><div style="background:var(--remodeling-t);color:var(--remodeling)">#F3E6DC</div></div><div class="info"><b style="color:var(--remodeling)">{{icon-remodeling}} Remodelación · "Nogal"</b><span class="muted small">La madera cálida de gabinetes y molduras.</span><span><span class="aa">AA 6.7:1</span></span></div></div>
+    <div class="tsw"><div class="duo"><div style="background:var(--electrical);color:#fff">#B45309</div><div style="background:var(--electrical-t);color:var(--electrical)">#FEF3C7</div></div><div class="info"><b style="color:var(--electrical)">{{icon-electrical}} Electricidad · "Voltio"</b><span class="muted small">Ámbar oscuro; más oscuro que el dorado, para que nunca parezca un botón.</span><span><span class="aa">AA 5.0:1</span></span></div></div>
+    <div class="tsw"><div class="duo"><div style="background:var(--plumbing);color:#fff">#0E7490</div><div style="background:var(--plumbing-t);color:var(--plumbing)">#CFFAFE</div></div><div class="info"><b style="color:var(--plumbing)">{{icon-plumbing}} Plomería · "Agua"</b><span class="muted small">Verde azulado, distinto del azul de la marca.</span><span><span class="aa">AA 5.4:1</span></span></div></div>
+  </div>
+
+  <h3 style="margin-top:34px;font-size:1.25rem">Cómo se vería la página de cada servicio</h3>
+  <p class="muted" style="margin-top:4px">El mismo encabezado azul marino, el mismo botón dorado, el mismo logo. Solo cambian de color la franja, la etiqueta y las marcas de cada servicio.</p>
+  <div class="grid mock-heroes">
+    {{heroes}}
+  </div>
+
+  <div class="menu" aria-label="Menú de servicios con colores por servicio">
+    {{menu}}
+  </div>
+
+  <div class="on-dark-chips">
+    <span class="lab">Sobre azul marino, use el tono claro como etiqueta:</span>
+    <span class="c" style="--c:var(--concrete);--t:var(--concrete-t)">Concreto</span>
+    <span class="c" style="--c:var(--landscaping);--t:var(--landscaping-t)">Jardinería</span>
+    <span class="c" style="--c:var(--remodeling);--t:var(--remodeling-t)">Remodelación</span>
+    <span class="c" style="--c:var(--electrical);--t:var(--electrical-t)">Electricidad</span>
+    <span class="c" style="--c:var(--plumbing);--t:var(--plumbing-t)">Plomería</span>
+  </div>
+
+  <div class="grid rules" style="margin-top:14px">
+    <div class="card"><h3 style="color:var(--landscaping)">Use los colores por servicio para</h3><ul><li>Etiquetas ("CONCRETO")</li><li>La franja bajo el encabezado de cada servicio</li><li>Bordes de tarjetas e íconos</li><li>Filtros de la galería y marcas del menú</li><li>Franja en la manga o en la puerta del vehículo de cada cuadrilla</li></ul></div>
+    <div class="card"><h3 style="color:var(--spark)">Nunca para</h3><ul><li>El logo (solo azul marino, blanco o dorado)</li><li>Botones (siempre dorado de seguridad)</li><li>Texto corrido ni fondos de página completos</li><li>Mezclar dos servicios en una misma etiqueta</li></ul></div>
+  </div>
+</section>
+
+<!-- ======================= APLICACIONES ======================= -->
+<section class="wrap" id="aplicaciones">
+  <span class="kicker">07 · En uso</span>
+  <h2>Dónde aparece todo</h2>
+
+  <div class="grid apps">
+    <div class="card">
+      <h3>Ícono de la app y del navegador</h3>
+      <div class="favs" style="margin-top:14px">
+        <figure><img src="{{icon}}" alt="" width="96" height="96" style="border-radius:22px">Pantalla del teléfono</figure>
+        <figure><img src="{{icon}}" alt="" width="48" height="48" style="border-radius:11px">48 px</figure>
+        <figure><img src="{{icon}}" alt="" width="32" height="32" style="border-radius:7px">32 px</figure>
+        <figure><img src="{{icon}}" alt="" width="16" height="16" style="border-radius:3px">16 px</figure>
+      </div>
+      <div class="tab"><img src="{{icon}}" alt="">LSG Contractors · Contratista general en Eagle Mountain</div>
+    </div>
+    <div class="card">
+      <h3>Vista previa al compartir</h3>
+      <p class="muted small" style="margin:4px 0 12px">Lo que aparece cuando alguien manda el sitio por mensaje, WhatsApp o Facebook.</p>
+      <img src="{{og}}" alt="Imagen para compartir en redes" style="border-radius:12px;border:1px solid var(--line)">
+    </div>
+    <div class="card">
+      <h3>Letrero de jardín</h3>
+      <div style="display:grid;place-items:center;padding-top:12px"><div class="sign" style="width:min(260px,100%)"><div class="face"><img src="{{logoNavy}}" alt=""></div><div class="phone">(435) 849-5193</div><div class="trades">Concreto · Jardinería · Remodelación</div></div></div>
+    </div>
+    <div class="card">
+      <h3>Tarjeta de presentación</h3>
+      <div style="padding-top:12px"><div class="bizcard"><img class="m" src="{{monogram}}" alt=""><div><p class="n">LENIN GUZMAN</p><p class="r">Dueño · LSG Contractors</p><p class="p">(435) 849-5193</p><p class="r">Presupuestos gratis por escrito · We speak English</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SIGUIENTES PASOS ======================= -->
+<section class="wrap" id="pasos">
+  <span class="kicker">08 · Siguientes pasos</span>
+  <h2>Antes de imprimir cualquier cosa</h2>
+  <div class="grid next">
+    <div class="card warn"><h3>Conseguir el logo en vector</h3><p class="muted small" style="margin-top:6px">El logo que tenemos es una imagen de 1340 px. Se ve nítido en el sitio web, pero es muy pequeño para rotular una camioneta o un letrero grande. Pídale al diseñador el logo en archivo SVG, AI o PDF.</p></div>
+    <div class="card"><h3>Confirmar la tipografía</h3><p class="muted small" style="margin-top:6px">El texto del logo parece Montserrat. Confirme con el diseñador la letra y el grosor exactos para que los impresos coincidan con el logo.</p></div>
+    <div class="card"><h3>Aprobar los colores por servicio</h3><p class="muted small" style="margin-top:6px">Estos cinco colores son una propuesta. Una vez aprobados, se pueden aplicar a las etiquetas y menús del sitio web.</p></div>
+    <div class="card"><h3>Actualizar los perfiles</h3><p class="muted small" style="margin-top:6px">Use el mismo nombre, logo y teléfono en Google Business Profile, Yelp, Angi y Facebook, para que los buscadores los traten como un solo negocio.</p></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <img src="{{logoWhite}}" alt="LSG Contractors">
+    <span>LSG Contractors · General Services · Guía de marca v1 · Octubre 2026</span>
+  </div>
+</footer>
+</body>
+</html>

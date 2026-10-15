@@ -1,14 +1,18 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import type { Service } from '@/content/schema'
-import { BUSINESS, SITE_URL, type Locale } from '@/lib/site'
+import type { Division, Service } from '@/content/schema'
+import { SITE_URL, type Locale } from '@/lib/site'
 import { image } from '@/lib/content/media'
 import { publishedCities } from '@/content/cities'
-import { cityPath, servicePath } from '@/lib/content/resolve'
+import { publishedServices, servicesIn } from '@/content/services'
+import { cityPath, comboPath, combosForDivision, divisionPath, servicePath } from '@/lib/content/resolve'
+import { byPartner } from '@/lib/content/trades'
 import { path } from '@/lib/i18n/paths'
+import { PartnerNotice } from '@/components/site/partner-notice'
+import { ServiceCard } from '@/components/site/service-card'
 import { Header } from '@/components/site/header'
 import { Footer } from '@/components/site/footer'
-import { JointGrid } from '@/components/site/joint-grid'
+import { PageHero } from '@/components/site/page-hero'
+import { HeroActions } from '@/components/site/hero-actions'
 import { JsonLd } from '@/components/seo/json-ld'
 import { breadcrumbNode, graph, ID, ref } from '@/lib/seo/graph'
 import { WorkStrip } from '@/components/sections/work-strip'
@@ -18,7 +22,11 @@ import { QuoteCta } from '@/components/sections/quote-cta'
 const copy = {
   en: {
     spec: 'How we build it',
-    areas: 'Where we pour',
+    areas: 'Where we work',
+    more: (d: string) => `More ${d.toLowerCase()} services`,
+    pairs: 'Often done together',
+    pairsLede: 'One contractor for the whole job means one schedule and one person to call.',
+    bubble: 'Free estimates!',
     areasLede: 'This service is available across our whole area. Pick a city for what changes locally.',
     cta: 'Get a free estimate',
     call: 'Call',
@@ -27,6 +35,10 @@ const copy = {
   es: {
     spec: 'Cómo lo construimos',
     areas: 'Dónde trabajamos',
+    more: (d: string) => `Más servicios de ${d.toLowerCase()}`,
+    pairs: 'Suele hacerse junto con',
+    pairsLede: 'Un solo contratista para toda la obra: un calendario y una sola persona a quien llamar.',
+    bubble: '¡Presupuesto gratis!',
     areasLede: 'Este servicio está disponible en toda nuestra zona. Elija una ciudad para ver qué cambia localmente.',
     cta: 'Solicitar presupuesto',
     call: 'Llamar',
@@ -34,10 +46,13 @@ const copy = {
   },
 } as const
 
-export function ServicePage({ service, locale }: { service: Service; locale: Locale }) {
+export function ServicePage({ service, division, locale }: { service: Service; division: Division; locale: Locale }) {
   const t = copy[locale]
-  const img = image(service.heroImageId)
+  const img = service.heroImageId ? image(service.heroImageId) : null
   const here = servicePath(service, locale)
+  const combos = combosForDivision(division.id)
+  const siblings = servicesIn(division.id).filter((s) => s.id !== service.id)
+  const pairs = service.pairsWith.map((id) => publishedServices.find((s) => s.id === id)!).filter(Boolean)
 
   const jsonLd = graph([
     {
@@ -45,13 +60,14 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
       name: service.name[locale],
       description: service.seo[locale].description,
       serviceType: service.name.en,
+      category: division.name.en,
       provider: ref(ID.org),
       areaServed: publishedCities.map((c) => ({ '@type': 'City', name: c.name })),
       url: new URL(here, SITE_URL).toString(),
     },
     breadcrumbNode([
       { name: locale === 'es' ? 'Inicio' : 'Home', path: path('home', locale) },
-      { name: t.services, path: path('services', locale) },
+      { name: division.name[locale], path: divisionPath(division, locale) },
       { name: service.name[locale], path: here },
     ]),
   ])
@@ -60,57 +76,27 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
     <>
       <Header locale={locale} />
       <main>
-        <section className="border-joint/40 relative border-b">
-          <div className="mx-auto grid w-full max-w-[110rem] items-stretch lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="text-joint/55 relative flex flex-col justify-center px-5 py-14 sm:px-8 sm:py-20">
-              <JointGrid />
-              <div className="relative">
-                <h1
-                  className="text-ink text-title max-w-[16ch] leading-[0.95] font-bold"
-                  style={{ fontStretch: '120%', letterSpacing: 'var(--tracking-display)' }}
-                >
-                  {service.name[locale]}
-                </h1>
-                <p className="text-ink/80 text-lede mt-6 max-w-[42ch] leading-relaxed text-pretty">
-                  {service.lede[locale]}
-                </p>
-                <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
-                  <Link
-                    href={path('estimate', locale)}
-                    className="bg-mark text-ink hover:bg-ink hover:text-slab inline-flex items-center px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
-                  >
-                    {t.cta}
-                  </Link>
-                  <a
-                    href={BUSINESS.phone.href}
-                    data-loc="service-hero"
-                    className="border-ink/30 text-ink hover:border-ink inline-flex items-center border px-7 py-4 text-sm font-semibold tracking-tight transition-colors"
-                  >
-                    {BUSINESS.phone.display}
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="border-joint/40 relative min-h-[46svh] border-t lg:min-h-0 lg:border-t-0 lg:border-l">
-              <Image
-                src={img.file}
-                alt={service.lede[locale]}
-                fill
-                sizes="(max-width: 1024px) 100vw, 48vw"
-                quality={80}
-                loading="eager"
-                fetchPriority="high"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </section>
+        <PageHero
+          title={service.name[locale]}
+          lede={service.lede[locale]}
+          kicker={
+            <Link href={divisionPath(division, locale)} className="inline-flex rounded-full bg-white/12 px-4 py-2 ring-1 ring-white/20 transition-colors hover:bg-white/20">
+              {division.name[locale]}
+            </Link>
+          }
+          image={img ? { src: img.file, alt: service.lede[locale] } : undefined}
+          mascotBubble={img ? undefined : t.bubble}
+        >
+          <HeroActions locale={locale} loc="service-hero" cta={t.cta} />
+        </PageHero>
 
-        <section className="border-joint/40 border-b">
+        <PartnerNotice division={division} locale={locale} />
+
+        <section>
           <div className="mx-auto grid w-full max-w-[110rem] gap-x-16 gap-y-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,62ch)_20rem] lg:justify-start">
             <div className="max-w-[62ch] space-y-6">
               {service.body[locale].map((p) => (
-                <p key={p.slice(0, 32)} className="text-ink/85 leading-[1.65]">
+                <p key={p.slice(0, 32)} className="text-ink/85 text-[1.05rem] leading-[1.7] first:text-lede first:text-navy first:font-medium">
                   {p}
                 </p>
               ))}
@@ -118,15 +104,15 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
 
             {/* The build spec, as a jointed data block — the detail the
                 competing sites in this market leave out entirely. */}
-            <aside className="bg-screed/60 h-fit">
-              <h2 className="border-joint/40 text-ink border-b px-6 py-4 text-sm font-semibold">
+            <aside className="h-fit overflow-hidden rounded-[var(--radius-panel)] bg-white shadow-[0_24px_50px_-28px_rgba(10,31,82,0.5)] ring-1 ring-[color-mix(in_oklab,var(--color-blue)_12%,transparent)] lg:sticky lg:top-32">
+              <h2 className="bg-blue type-heading px-6 py-5 text-lg text-white">
                 {t.spec}
               </h2>
-              <dl className="divide-joint/30 divide-y">
+              <dl className="divide-screed divide-y-2">
                 {service.spec.map((row) => (
                   <div key={row.label.en} className="px-6 py-4">
-                    <dt className="text-joint text-xs">{row.label[locale]}</dt>
-                    <dd className="text-ink mt-1 text-sm leading-snug">{row.value[locale]}</dd>
+                    <dt className="text-blue text-xs font-bold">{row.label[locale]}</dt>
+                    <dd className="text-navy mt-1 text-sm leading-snug font-medium">{row.value[locale]}</dd>
                   </div>
                 ))}
               </dl>
@@ -136,27 +122,63 @@ export function ServicePage({ service, locale }: { service: Service; locale: Loc
 
         <section>
           <div className="mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8">
-            <h2 className="text-ink text-heading font-bold" style={{ fontStretch: '115%' }}>
+            <h2 className="text-navy text-title type-display">
               {t.areas}
             </h2>
-            <p className="text-ink/70 mt-3 max-w-[54ch]">{t.areasLede}</p>
-            <ul className="border-joint/40 mt-8 grid border-t sm:grid-cols-2 lg:grid-cols-3">
-              {publishedCities.map((c) => (
-                <li key={c.id} className="border-joint/40 border-b">
+            <p className="text-joint text-lede mt-4 max-w-[48ch] leading-relaxed">{t.areasLede}</p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {publishedCities.map((c) => {
+                const combo = combos.find((x) => x.cityId === c.id)
+                return (
+                <li key={c.id}>
                   <Link
-                    href={cityPath(c, locale)}
-                    className="hover:bg-screed/70 block px-1 py-4 transition-colors"
+                    href={combo ? comboPath(combo, locale) : cityPath(c, locale)}
+                    className="link-card"
                   >
-                    <span className="text-ink text-sm font-medium">{c.name}</span>
-                    <span className="text-joint mt-0.5 block text-xs">{c.county}</span>
+                    <span>{c.name}</span>
+                    <span>{c.county}</span>
                   </Link>
                 </li>
-              ))}
+                )
+              })}
             </ul>
           </div>
         </section>
-        <WorkStrip locale={locale} seed={service.id} />
-        <Testimonials locale={locale} />
+
+        {siblings.length > 0 && (
+          <section>
+            <div className="mx-auto w-full max-w-[110rem] px-5 py-16 sm:px-8">
+              <h2 className="text-navy text-title type-display">{t.more(division.name[locale])}</h2>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {siblings.slice(0, 3).map((s) => (
+                  <ServiceCard key={s.id} service={s} locale={locale} />
+                ))}
+              </div>
+              {siblings.length > 3 && (
+                <Link href={divisionPath(division, locale)} className="btn btn-ghost-dark mt-8">
+                  {division.name[locale]}
+                </Link>
+              )}
+            </div>
+          </section>
+        )}
+
+        {pairs.length > 0 && (
+          <section>
+            <div className="mx-auto w-full max-w-[110rem] px-5 pb-16 sm:px-8">
+              <h2 className="text-navy text-title type-display">{t.pairs}</h2>
+              <p className="text-joint text-lede mt-4 max-w-[48ch] leading-relaxed">{t.pairsLede}</p>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {pairs.map((s) => (
+                  <ServiceCard key={s.id} service={s} locale={locale} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <WorkStrip locale={locale} seed={service.id} division={division.id} />
+        <Testimonials locale={locale} division={byPartner(division) ? undefined : division.id} />
         <QuoteCta locale={locale} />
       </main>
       <Footer locale={locale} />

@@ -5,8 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'Contacto | LSG Quality Concrete',
-  description: 'Llame al (435) 849-5193 o escríbanos para un presupuesto de concreto gratis en el Condado de Utah y el sur del Valle de Salt Lake.',
+  title: 'Contacto | Presupuestos Gratis en el Condado de Utah',
+  description:
+    'Llame al (435) 849-5193 o escríbanos para un presupuesto gratis de concreto, jardinería o remodelación en el Condado de Utah y el Valle de Salt Lake.',
   alternates: alternates('es', '/contact/', '/es/contacto/'),
 }
 

@@ -5,8 +5,9 @@ import { alternates } from '@/lib/i18n/alternates'
 export const dynamic = 'error'
 
 export const metadata: Metadata = {
-  title: 'About LSG Quality Concrete | Eagle Mountain',
-  description: 'A concrete crew based in Eagle Mountain, Utah. The same people form, pour and finish every job. Fifteen years in the valley.',
+  title: 'About Us | Eagle Mountain General Contractor',
+  description:
+    'A local crew based in Eagle Mountain, Utah, doing concrete, landscaping and remodeling, with licensed partners for electrical and plumbing.',
   alternates: alternates('en', '/about/', '/es/nosotros/'),
 }
 

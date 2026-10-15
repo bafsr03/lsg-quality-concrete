@@ -9,6 +9,7 @@ import type { Locale } from '@/lib/site'
 const PATHS = {
   home: { en: '/', es: '/es/' },
   services: { en: '/services/', es: '/es/servicios/' },
+  serviceAreas: { en: '/service-areas/', es: '/es/areas-de-servicio/' },
   gallery: { en: '/gallery/', es: '/es/galeria/' },
   reviews: { en: '/reviews/', es: '/es/resenas/' },
   about: { en: '/about/', es: '/es/nosotros/' },

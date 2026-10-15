@@ -14,7 +14,7 @@ const ALLOWED_DYNAMIC = new Set(['/api/quote'])
 /** Next emits these as route handlers, but they are static metadata files. */
 const METADATA_ROUTES = new Set([
   '/favicon.ico', '/sitemap.xml', '/robots.txt',
-  '/icon.png', '/apple-icon.png', '/opengraph-image',
+  '/icon.png', '/apple-icon.png', '/opengraph-image', '/opengraph-image.png',
 ])
 
 const manifest = JSON.parse(await readFile('.next/prerender-manifest.json', 'utf8'))

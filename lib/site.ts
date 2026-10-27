@@ -33,7 +33,7 @@ export const BUSINESS = {
   owner: 'Lenin Guzman',
 
   phone: { display: '(435) 849-5193', href: 'tel:+14358495193', e164: '+14358495193' },
-  email: 'lsgqualityconcrete@gmail.com',
+  email: 'lsggeneralcontractor@gmail.com',
 
   /** Service-area business: no street address is published anywhere, so the
    *  schema carries locality/region only — no PostalAddress street line.

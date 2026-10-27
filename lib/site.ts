@@ -22,9 +22,9 @@ export const INDEXABLE =
 export const BUSINESS = {
   /** Canonical spelling. The old site used "L.S.G", Yelp and the state
    *  registration use "LSG". One spelling everywhere, or citations fragment. */
-  /** Matches the domain (lsggeneralcontractor.com). The logo art still reads
-   *  "LSG CONTRACTORS / GENERAL SERVICES": matching it needs new art in brand/source/
-   *  and a re-run of scripts/build-brand.mjs. */
+  /** Matches the domain (lsggeneralcontractor.com) and the logo art. A rename
+   *  needs the logo text redrawn (scripts/build-logo-text.py) and a re-run of
+   *  scripts/build-brand.mjs. */
   name: 'LSG General Contractor',
   shortName: 'LSG',
   /** Trading name of the existing LLC (a DBA), so licence, insurance and EIN

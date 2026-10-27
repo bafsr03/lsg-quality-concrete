@@ -1,8 +1,10 @@
 /**
  * Builds every brand asset from the owner's final art in brand/source/:
  *
- *   logo.png           the main logo: house monogram over "LSG CONTRACTORS /
- *                      GENERAL SERVICES", one flat navy on transparent
+ *   logo.png           the main logo: house monogram over "LSG GENERAL /
+ *                      CONTRACTOR", one flat navy on transparent (text
+ *                      redrawn by scripts/build-logo-text.py; the owner's
+ *                      original "LSG CONTRACTORS" art is logo-original.png)
  *   monogram-gold.png  the gold 3-D monogram (favicon, dark surfaces)
  *   mascot.jpeg        the crew mascot on a white background
  *
@@ -30,7 +32,7 @@ await sharp('brand/source/monogram-gold.png').trim().resize({ width: 640 }).png(
 // The source is one colour, so only its alpha matters: we keep the coverage,
 // drop the faint specks the background remover left, and repaint it flat in
 // any brand colour. Rows of ink split it into its three parts: the monogram,
-// "LSG CONTRACTORS" and "GENERAL SERVICES".
+// "LSG GENERAL" and "CONTRACTOR".
 const NAVY = [10, 31, 82]
 const WHITE = [255, 255, 255]
 const logoSrc = await sharp('brand/source/logo.png').ensureAlpha().raw().toBuffer({ resolveWithObject: true })

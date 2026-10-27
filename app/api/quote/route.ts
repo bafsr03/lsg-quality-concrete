@@ -139,8 +139,8 @@ async function deliver(lines: Array<[string, string]>, job: string, city: string
   const apiKey = process.env.RESEND_API_KEY
   const to = process.env.QUOTE_INBOX ?? BUSINESS.email
   // Set QUOTE_FROM to an address on the verified sending domain once the new
-  // domain exists; the fallback only works while the old domain is verified.
-  const from = process.env.QUOTE_FROM ?? `${BUSINESS.name} Website <quotes@mail.lsgqualityconcrete.com>`
+  // domain is verified in Resend; the fallback needs mail.lsggeneralcontractor.com verified.
+  const from = process.env.QUOTE_FROM ?? `${BUSINESS.name} Website <quotes@mail.lsggeneralcontractor.com>`
 
   // Without a key nothing can be delivered. Say so plainly rather than
   // returning success and dropping the lead — the UI falls back to the phone

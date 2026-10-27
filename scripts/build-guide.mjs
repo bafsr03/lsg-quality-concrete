@@ -48,7 +48,7 @@ const vars = (t) => `--c:var(--${t.id});--t:var(--${t.id}-t)`
 const heroes = trades.map((t) => `
     <div class="mh" style="${vars(t)}">
       <div class="top">
-        <div class="crumbs">LSG Contractors › ${t.name}</div>
+        <div class="crumbs">LSG General Contractor › ${t.name}</div>
         <span class="tchip">${icons[t.id]} ${t.name}</span>
         <h3>${t.title}</h3>
         <div class="actions"><span class="btn gold">Presupuesto gratis</span><span class="btn ghost">(435) 849-5193</span></div>

@@ -7,10 +7,10 @@
  * manual-action risk if they ship wrong.
  */
 /**
- * The production origin. The new domain is not bought yet, so it comes from the
- * environment; the fallback is only ever used for local builds.
+ * The production origin (https://lsggeneralcontractor.com). It comes from the
+ * environment so previews stay noindex; the fallback is only for local builds.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lsgcontractors.example').replace(/\/$/, '')
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lsggeneralcontractor.example').replace(/\/$/, '')
 
 /**
  * Search engines may index only the real production deployment. Preview URLs,
@@ -22,10 +22,10 @@ export const INDEXABLE =
 export const BUSINESS = {
   /** Canonical spelling. The old site used "L.S.G", Yelp and the state
    *  registration use "LSG". One spelling everywhere, or citations fragment. */
-  /** Matches the owner's logo ("LSG CONTRACTORS / GENERAL SERVICES"). The
-   *  logo art carries the name too: a rename needs new art in brand/source/
+  /** Matches the domain (lsggeneralcontractor.com). The logo art still reads
+   *  "LSG CONTRACTORS / GENERAL SERVICES": matching it needs new art in brand/source/
    *  and a re-run of scripts/build-brand.mjs. */
-  name: 'LSG Contractors',
+  name: 'LSG General Contractor',
   shortName: 'LSG',
   /** Trading name of the existing LLC (a DBA), so licence, insurance and EIN
    *  stay with the entity that holds them. */

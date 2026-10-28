@@ -113,7 +113,7 @@ export function Footer({ locale, helper = true }: { locale: Locale; helper?: boo
         {/* The wordmark, set huge and hollow — a sign painted on the crew truck. */}
         <p
           aria-hidden="true"
-          className="type-display mx-auto w-full max-w-[110rem] px-5 text-[clamp(2.2rem,8.4vw,8.5rem)] whitespace-nowrap text-transparent select-none sm:px-8"
+          className="type-display mx-auto w-full max-w-[110rem] px-5 text-[clamp(1.1rem,6.1vw,7.25rem)] whitespace-nowrap text-transparent select-none sm:px-8"
           style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.16)' }}
         >
           {BUSINESS.name}
